@@ -21,7 +21,7 @@ namespace CosmosApi.Endpoints
             ulong? limit = default, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("gov", "proposals")
+                .Request("gov","proposals")
                 .SetQueryParam("voter", voter)
                 .SetQueryParam("depositor", depositor)
                 .SetQueryParam("status", status)

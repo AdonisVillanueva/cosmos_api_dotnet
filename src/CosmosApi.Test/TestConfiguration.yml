@@ -1,6 +1,6 @@
-﻿LocalBaseUrl:  http://localhost:1317
-LocalAccount1Address: cosmos1ht7y9zx4n4wnvwmgyqm8309xj2yulwklj54h5j
-LocalAccount2Address: cosmos1235em592dc22gehs9z44reqtuy2hqulndd54zt
+﻿LocalBaseUrl: http://localhost:1317/
+LocalAccount1Address: cosmos1lmgm2eta9wpyr75k5740a802p07mfg3x843pzt
+LocalAccount2Address: cosmos156ww7tt8g0wsdqucxpastq44s9htn55jkkcu2d
 LocalAccount1PrivateKey: |-
   -----BEGIN TENDERMINT PRIVATE KEY-----
   kdf: bcrypt
