@@ -14,7 +14,6 @@ using CosmosApi.Serialization;
 using Flurl.Http;
 using Flurl.Http.Configuration;
 using Newtonsoft.Json;
-using TaskTupleAwaiter;
 using ISerializer = CosmosApi.Serialization.ISerializer;
 
 namespace CosmosApi
