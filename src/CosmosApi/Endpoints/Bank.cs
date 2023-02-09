@@ -20,7 +20,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<IList<Coin>>> GetBankBalancesByAddressAsync(string address, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("bank", "balances", address)
+                .Request("cosmos/bank/v1beta1", "balances", address)
                 .GetJsonAsync<ResponseWithHeight<IList<Coin>>>(cancellationToken)
                 .WrapExceptions();
         }

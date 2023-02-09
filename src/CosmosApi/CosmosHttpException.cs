@@ -25,11 +25,11 @@ namespace CosmosApi
 
         internal CosmosHttpException(FlurlHttpException innerException) : base(innerException.Message, innerException)
         {
-            Request = innerException.Call.Request;
-            Response = innerException.Call.Response;
+            Request = (HttpRequestMessage?)innerException.Call.Request;
+            Response = (HttpResponseMessage?)innerException.Call.Response;
             EndedUtc = innerException.Call.EndedUtc;
             StartedUtc = innerException.Call.StartedUtc;
-            Url = innerException.Call.FlurlRequest.Url;
+            Url = innerException.Call.Request.Url;
         }
     }
 }

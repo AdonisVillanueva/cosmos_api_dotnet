@@ -80,7 +80,7 @@ namespace CosmosApi
                     {
                         s.OnError = call =>
                         {
-                            var error = new Error(call.Request, call.Response, call.StartedUtc, call.EndedUtc, call.Exception.WrapException(), call.ExceptionHandled);
+                            var error = new Error((HttpRequestMessage)call.Request, (HttpResponseMessage?)call.Response, call.StartedUtc, call.EndedUtc, call.Exception.WrapException(), call.ExceptionHandled);
                             _settings.OnError(error);
                             call.ExceptionHandled = error.Handled;
                         };
@@ -89,7 +89,7 @@ namespace CosmosApi
                     {
                         s.OnErrorAsync = async call =>
                         {
-                            var error = new Error(call.Request, call.Response, call.StartedUtc, call.EndedUtc, call.Exception.WrapException(), call.ExceptionHandled);
+                            var error = new Error((HttpRequestMessage)call.Request, (HttpResponseMessage?)call.Response, call.StartedUtc, call.EndedUtc, call.Exception.WrapException(), call.ExceptionHandled);
                             await _settings.OnErrorAsync(error);
                             call.ExceptionHandled = error.Handled;
                         };
@@ -97,20 +97,20 @@ namespace CosmosApi
 
                     if (_settings.OnBeforeCall != null)
                     {
-                        s.BeforeCall = call => _settings.OnBeforeCall(new BeforeCall(call.Request));
+                        s.BeforeCall = call => _settings.OnBeforeCall(new BeforeCall((HttpRequestMessage)call.Request));
                     }
                     if (_settings.OnBeforeCallAsync != null)
                     {
-                        s.BeforeCallAsync = call => _settings.OnBeforeCallAsync(new BeforeCall(call.Request));
+                        s.BeforeCallAsync = call => _settings.OnBeforeCallAsync(new BeforeCall((HttpRequestMessage)call.Request));
                     }
 
                     if (_settings.OnAfterCall != null)
                     {
-                        s.AfterCall = call => _settings.OnAfterCall(new AfterCall(call.Request, call.Response, call.StartedUtc, call.EndedUtc));
+                        s.AfterCall = call => _settings.OnAfterCall(new AfterCall((HttpRequestMessage)call.Request, (HttpResponseMessage?)call.Response, call.StartedUtc, call.EndedUtc));
                     }
                     if (_settings.OnAfterCallAsync != null)
                     {
-                        s.AfterCallAsync = call => _settings.OnAfterCallAsync(new AfterCall(call.Request, call.Response, call.StartedUtc, call.EndedUtc));
+                        s.AfterCallAsync = call => _settings.OnAfterCallAsync(new AfterCall((HttpRequestMessage)call.Request, (HttpResponseMessage?)call.Response, call.StartedUtc, call.EndedUtc));
                     }
 
                     var jsonSerializerSettings = JsonSerializerSettings();
