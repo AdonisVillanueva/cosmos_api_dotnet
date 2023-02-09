@@ -111,6 +111,7 @@ namespace CosmosApi
                     if (_settings.OnAfterCallAsync != null)
                     {
                         s.AfterCallAsync = call => _settings.OnAfterCallAsync(new AfterCall((HttpRequestMessage)call.Request, (HttpResponseMessage?)call.Response, call.StartedUtc, call.EndedUtc));
+                        s.AfterCallAsync = call => _settings.OnAfterCallAsync(new AfterCall((HttpRequestMessage)((IFlurlRequest)call).Headers, (HttpResponseMessage?)call.Response.Headers, call.StartedUtc, call.EndedUtc));
                     }
 
                     var jsonSerializerSettings = JsonSerializerSettings();
