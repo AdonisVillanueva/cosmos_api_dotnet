@@ -20,14 +20,7 @@ namespace CosmosApi.Endpoints
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<ResponseWithHeight<IList<Coin>>> GetBankBalancesByAddressAsync(string address, CancellationToken cancellationToken = default);
+        Task<ResponseWithHeight<Balance>> GetBankBalancesByAddressAsync(string address, CancellationToken cancellationToken = default);
 
-        /// <summary>
-        /// Get the account balances.
-        /// </summary>
-        /// <param name='address'>
-        /// Account address in bech32 format.
-        /// </param>
-        ResponseWithHeight<IList<Coin>> GetBankBalancesByAddress(string address);
     }
 }

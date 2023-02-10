@@ -24,18 +24,18 @@ namespace CosmosApi.Test.Endpoints
             //Assert.All(balance.balances., CoinNotEmpty);
         }
 
-        [Fact]
-        public void SyncGetBankBalanceByAddressNotEmpty()
-        {
-            using var client = CreateClient(Configuration.LocalBaseUrl);
-            var balance =
-                client.Bank.GetBankBalancesByAddress(Configuration.LocalAccount1Address);
+        //[Fact]
+        //public void SyncGetBankBalanceByAddressNotEmpty()
+        //{
+        //    using var client = CreateClient(Configuration.LocalBaseUrl);
+        //    var balance =
+        //        client.Bank.GetBankBalancesByAddress(Configuration.LocalAccount1Address);
 
-            OutputHelper.WriteLine("Deserialized into");
-            Dump(balance);
+        //    OutputHelper.WriteLine("Deserialized into");
+        //    Dump(balance);
 
-            //Assert.NotEmpty(balance.Result.balances);
-            //Assert.All(balance.Result, CoinNotEmpty);
-        }
+        //    //Assert.NotEmpty(balance.Result.balances);
+        //    //Assert.All(balance.Result, CoinNotEmpty);
+        //}
     }
 }

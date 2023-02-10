@@ -107,6 +107,7 @@ namespace CosmosApi
                     if (_settings.OnAfterCall != null)
                     {
                         s.AfterCall = call => _settings.OnAfterCall(new AfterCall((HttpRequestMessage)call.Request, (HttpResponseMessage?)call.Response, call.StartedUtc, call.EndedUtc));
+                        s.AfterCall = call => _settings.OnAfterCall(new AfterCall((HttpRequestMessage)((IFlurlRequest)call).Headers, (HttpResponseMessage?)call.Response.Headers, call.StartedUtc, call.EndedUtc));
                     }
                     if (_settings.OnAfterCallAsync != null)
                     {
@@ -161,6 +162,7 @@ namespace CosmosApi
             {
                 jsonSerializerSettings.Converters.Add(_settings.ProposalContentConverter);
             }
+
             return jsonSerializerSettings;
         }
 
