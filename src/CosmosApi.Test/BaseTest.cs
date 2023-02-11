@@ -1,27 +1,27 @@
-﻿using System;
+﻿using CosmosApi.Callbacks;
+using CosmosApi.Models;
+using System;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using CosmosApi.Callbacks;
-using CosmosApi.Models;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace CosmosApi.Test
 {
-    public class BaseTest: IAsyncLifetime
+    public class BaseTest : IAsyncLifetime
     {
         public ITestOutputHelper OutputHelper { get; }
         public TestConfiguration Configuration { get; }
-        
+
         public BaseTest(ITestOutputHelper outputHelper)
         {
             OutputHelper = outputHelper;
             Configuration = TestConfiguration.Create();
         }
 
-        public async Task<string> GetChainId(ICosmosApiClient cosmosApiClient)
+        public static async Task<string> GetChainId(ICosmosApiClient cosmosApiClient)
         {
             return (await cosmosApiClient
                     .GaiaRest
@@ -30,8 +30,10 @@ namespace CosmosApi.Test
                 .Network;
         }
 
-        public ICosmosApiClient CreateClient(string? baseUrl = default)
+        public ICosmosApiClient CreateClient(string baseUrl)
         {
+            baseUrl ??= string.Empty;
+
             return ConfigureBuilder(baseUrl)
                 .CreateClient();
         }
@@ -132,24 +134,24 @@ namespace CosmosApi.Test
             }
         }
 
-        protected void CheckStdTx(BaseReq baseRequest, StdTx stdTx)
+        protected static void CheckStdTx(BaseReq baseRequest, StdTx stdTx)
         {
             Assert.Equal(baseRequest.Memo, stdTx.Memo);
         }
 
-        protected void CoinNotEmpty(DecCoin coin)
+        protected static void CoinNotEmpty(DecCoin coin)
         {
             Assert.NotEmpty(coin.Denom);
             Assert.True(coin.Amount > 0);
         }
 
-        protected void CoinNotEmpty(Coin coin)
+        protected static void CoinNotEmpty(Coin coin)
         {
             Assert.NotEmpty(coin.Denom);
             Assert.True(coin.Amount > 0);
         }
-        
-        protected void TxIsDelegateAndNotEmpty(TxResponse txResponse)
+
+        protected static void TxIsDelegateAndNotEmpty(TxResponse txResponse)
         {
             Assert.True(txResponse.Height > 0);
             Assert.True(txResponse.GasUsed > 0);
@@ -187,7 +189,7 @@ namespace CosmosApi.Test
             {
                 return;
             }
-            
+
             await CreateDelegateTx(client);
             await CreateUnbondTx(client);
             await CreateSubmitProposal(client);
@@ -203,7 +205,7 @@ namespace CosmosApi.Test
         {
             var tx = await client.Governance.PostVoteAsync(1, new VoteReq(
                 await client.CreateBaseReq(Configuration.LocalDelegator1Address, null, null, null, null, null),
-                Configuration.LocalDelegator1Address, 
+                Configuration.LocalDelegator1Address,
                 VoteOption.Abstain));
             await client.SignAndBroadcastStdTxAsync(tx, Delegator1Signer(), BroadcastTxMode.Block);
         }
@@ -212,7 +214,7 @@ namespace CosmosApi.Test
         {
             var tx = await client.Governance.PostVoteAsync(1, new VoteReq(
                 await client.CreateBaseReq(Configuration.LocalAccount2Address, null, null, null, null, null),
-                Configuration.LocalAccount2Address, 
+                Configuration.LocalAccount2Address,
                 VoteOption.No));
             await client.SignAndBroadcastStdTxAsync(tx, Account2Signer(), BroadcastTxMode.Block);
         }
@@ -221,7 +223,7 @@ namespace CosmosApi.Test
         {
             var tx = await client.Governance.PostVoteAsync(1, new VoteReq(
                 await client.CreateBaseReq(Configuration.LocalAccount1Address, null, null, null, null, null),
-                Configuration.LocalAccount1Address, 
+                Configuration.LocalAccount1Address,
                 VoteOption.Yes));
             await client.SignAndBroadcastStdTxAsync(tx, Account1Signer(), BroadcastTxMode.Block);
         }
@@ -230,8 +232,8 @@ namespace CosmosApi.Test
         {
             var tx = await client.Governance.PostDepositAsync(1, new DepositReq(
                 await client.CreateBaseReq(Configuration.LocalDelegator1Address, null, null, null, null, null),
-                Configuration.LocalDelegator1Address, 
-                new [] { new Coin("stake", 2000000)}));
+                Configuration.LocalDelegator1Address,
+                new[] { new Coin("stake", 2000000) }));
             await client.SignAndBroadcastStdTxAsync(tx, Delegator1Signer(), BroadcastTxMode.Block);
         }
 
@@ -239,8 +241,8 @@ namespace CosmosApi.Test
         {
             var tx = await client.Governance.PostDepositAsync(1, new DepositReq(
                 await client.CreateBaseReq(Configuration.LocalAccount2Address, null, null, null, null, null),
-                Configuration.LocalAccount2Address, 
-                new [] { new Coin("stake", 2000000)}));
+                Configuration.LocalAccount2Address,
+                new[] { new Coin("stake", 2000000) }));
             await client.SignAndBroadcastStdTxAsync(tx, Account2Signer(), BroadcastTxMode.Block);
         }
 
@@ -251,8 +253,8 @@ namespace CosmosApi.Test
                 "Test Proposal Title",
                 "Test Proposal Description",
                 "Text",
-                Configuration.LocalAccount1Address, 
-                new [] { new Coin("stake", 7000000)}));
+                Configuration.LocalAccount1Address,
+                new[] { new Coin("stake", 7000000) }));
             await client.SignAndBroadcastStdTxAsync(tx, Account1Signer(), BroadcastTxMode.Block);
         }
 
@@ -260,7 +262,7 @@ namespace CosmosApi.Test
         {
             var tx = await client.Staking.PostUnbondingDelegationAsync(new UndelegateRequest(
                 await client.CreateBaseReq(Configuration.LocalAccount1Address, null, null, null, null, null),
-                Configuration.LocalAccount1Address, Configuration.LocalValidator1Address, 
+                Configuration.LocalAccount1Address, Configuration.LocalValidator1Address,
                 new Coin("stake", 99)));
             await client.SignAndBroadcastStdTxAsync(tx, Account1Signer(), BroadcastTxMode.Block);
         }
@@ -269,7 +271,7 @@ namespace CosmosApi.Test
         {
             var tx = await client.Staking.PostDelegationsAsync(new DelegateRequest(
                 await client.CreateBaseReq(Configuration.LocalAccount1Address, null, null, null, null, null),
-                Configuration.LocalAccount1Address, Configuration.LocalValidator1Address, 
+                Configuration.LocalAccount1Address, Configuration.LocalValidator1Address,
                 new Coin("stake", 9999)));
             await client.SignAndBroadcastStdTxAsync(tx, Account1Signer(), BroadcastTxMode.Block);
         }

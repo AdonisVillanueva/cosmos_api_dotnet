@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Globalization;
-using Newtonsoft.Json;
 
 namespace CosmosApi.Serialization
 {
@@ -9,7 +9,7 @@ namespace CosmosApi.Serialization
         public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
             var str = Convert.ToString(value, CultureInfo.InvariantCulture);
-  
+
             serializer.Serialize(writer, str);
         }
 

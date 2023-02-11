@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CosmosApi.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CosmosApi.Models;
 
 namespace CosmosApi.Endpoints
 {
@@ -51,7 +51,7 @@ namespace CosmosApi.Endpoints
         /// </summary>
         /// <returns></returns>
         Task<GasEstimateResponse> PostProposalSimulationAsync<TContentType>(BaseReq baseReq, string title, string description, string proposer, IList<Coin> initialDeposit, CancellationToken cancellationToken = default) where TContentType : IProposalContent;
- 
+
         /// <summary>
         /// Submit a proposal.
         /// </summary>
@@ -71,7 +71,7 @@ namespace CosmosApi.Endpoints
         /// </summary>
         /// <returns></returns>
         GasEstimateResponse PostProposalSimulation<TContentType>(BaseReq baseReq, string title, string description, string proposer, IList<Coin> initialDeposit) where TContentType : IProposalContent;
-        
+
         /// <summary>
         /// Submit a proposal.
         /// </summary>
@@ -91,7 +91,7 @@ namespace CosmosApi.Endpoints
         /// </summary>
         /// <returns></returns>
         Task<StdTx> PostProposalAsync<TContentType>(BaseReq baseReq, string title, string description, string proposer, IList<Coin> initialDeposit, CancellationToken cancellationToken = default) where TContentType : IProposalContent;
- 
+
         /// <summary>
         /// Submit a proposal.
         /// </summary>

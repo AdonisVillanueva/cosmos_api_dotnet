@@ -1,5 +1,4 @@
 ﻿using CosmosApi;
-using CosmosApi.Endpoints;
 using CosmosApi.Models;
 using Flurl;
 using Flurl.Http;
@@ -22,9 +21,9 @@ IFlurlResponse singleGeocodeResponse = (IFlurlResponse)await "http://localhost:1
 
 Console.WriteLine(singleGeocodeResponse);
 
-    IReadOnlyNameValueList<string> headers = singleGeocodeResponse.Headers;
-    string blockHeight = headers.FirstOrDefault(h => h.Name == "Grpc-Metadata-X-Cosmos-Block-Height").Value;
-    Console.WriteLine(blockHeight);
+IReadOnlyNameValueList<string> headers = singleGeocodeResponse.Headers;
+string blockHeight = headers.FirstOrDefault(h => h.Name == "Grpc-Metadata-X-Cosmos-Block-Height").Value;
+Console.WriteLine(blockHeight);
 
 var responseBalance = await singleGeocodeResponse.GetJsonAsync<Balance>();
 

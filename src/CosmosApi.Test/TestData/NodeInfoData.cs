@@ -36,6 +36,6 @@ namespace CosmosApi.Test.TestData
                 BuildTags = "netgo,ledger",
                 Go = "go version go1.14.2 linux/amd64"
             }
-        }; 
+        };
     }
 }

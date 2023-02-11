@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CosmosApi.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CosmosApi.Models;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -23,15 +23,15 @@ namespace CosmosApi.Test.Endpoints
             var delegations = await client
                 .Staking
                 .GetDelegationsAsync(Configuration.LocalAccount1Address);
-            
+
             OutputHelper.WriteLine("Deserialized into:");
             Dump(delegations);
-            
+
             Assert.NotEmpty(delegations.Result);
             Assert.True(delegations.Result[0].Balance > 0);
             Assert.True(delegations.Result[0].Shares > 0);
         }
-        
+
         [Fact]
         public void SyncGetDelegationsNotEmpty()
         {
@@ -40,10 +40,10 @@ namespace CosmosApi.Test.Endpoints
             var delegations = client
                 .Staking
                 .GetDelegations(Configuration.LocalAccount1Address);
-            
+
             OutputHelper.WriteLine("Deserialized into:");
             Dump(delegations);
-            
+
             Assert.NotEmpty(delegations.Result);
             Assert.True(delegations.Result[0].Balance > 0);
             Assert.True(delegations.Result[0].Shares > 0);
@@ -63,7 +63,7 @@ namespace CosmosApi.Test.Endpoints
             OutputHelper.WriteLine("Deserialized gas estimate:");
             Dump(postResult);
             OutputHelper.WriteLine("");
-            
+
             Assert.NotNull(postResult);
         }
 
@@ -81,7 +81,7 @@ namespace CosmosApi.Test.Endpoints
             OutputHelper.WriteLine("Deserialized tx:");
             Dump(postResult);
             OutputHelper.WriteLine("");
-            
+
             Assert.True(postResult.Msg.Count > 0);
             var msgDelegate = postResult
                 .Msg
@@ -103,7 +103,7 @@ namespace CosmosApi.Test.Endpoints
             OutputHelper.WriteLine("Deserialized delegation:");
             Dump(delegation);
             OutputHelper.WriteLine("");
-            
+
             Assert.True(delegation.Result.Balance > 0);
             Assert.True(delegation.Result.Shares > 0);
         }
@@ -116,10 +116,10 @@ namespace CosmosApi.Test.Endpoints
             var delegations = await client
                 .Staking
                 .GetUnbondingDelegationsAsync(Configuration.LocalAccount1Address);
-            
+
             OutputHelper.WriteLine("Deserialized delegations:");
             Dump(delegations);
-            
+
             Assert.NotEmpty(delegations.Result);
             Assert.All(delegations.Result, d => { UnbondingDelegationNotEmpty(d); });
         }
@@ -141,7 +141,7 @@ namespace CosmosApi.Test.Endpoints
         public async Task AsyncPostUnbondingCompletes()
         {
             using var client = CreateClient(Configuration.LocalBaseUrl);
-            
+
             var baseRequest = await client.CreateBaseReq(Configuration.LocalDelegator1Address, null, null, null, null, null);
             var undelegateRequest = new UndelegateRequest(baseRequest, Configuration.LocalDelegator1Address, Configuration.LocalValidator1Address, new Coin("stake", 10));
             var tx = (await client
@@ -154,8 +154,8 @@ namespace CosmosApi.Test.Endpoints
 
             var undelegateMessage = tx.Msg
                 .OfType<MsgUndelegate>()
-                .First(); 
-            
+                .First();
+
             Assert.Equal("stake", undelegateMessage.Amount.Denom);
             Assert.Equal(10, undelegateMessage.Amount.Amount);
             Assert.Equal(Configuration.LocalDelegator1Address, undelegateMessage.DelegatorAddress);
@@ -172,8 +172,8 @@ namespace CosmosApi.Test.Endpoints
                     .GetUnbondingDelegationsByValidatorAsync(Configuration.LocalAccount1Address, Configuration.LocalValidator1Address);
             OutputHelper.WriteLine("Deserialized unbonding delegation:");
             Dump(result);
-            
-            UnbondingDelegationNotEmpty(result.Result);   
+
+            UnbondingDelegationNotEmpty(result.Result);
         }
 
         [Fact]
@@ -187,7 +187,7 @@ namespace CosmosApi.Test.Endpoints
                 .GetRedelegationsAsync();
             OutputHelper.WriteLine("Deserialized redelegations:");
             Dump(result);
-            
+
             Assert.NotEmpty(result.Result);
             Assert.All(result.Result, r =>
             {
@@ -234,17 +234,17 @@ namespace CosmosApi.Test.Endpoints
         public async Task AsyncPostRedelegationSimulationCompletes()
         {
             using var client = CreateClient(Configuration.LocalBaseUrl);
-            
+
             var baseRequest = await client.CreateBaseReq(Configuration.LocalDelegator1Address, null, null, null, null, null);
             var redelegationRequest = new RedelegateRequest(baseRequest, Configuration.LocalDelegator1Address, Configuration.LocalValidator1Address, Configuration.LocalValidator2Address, new Coin("stake", 10));
 
             var gasEstimation = await client
                 .Staking
                 .PostRedelegationSimulationAsync(redelegationRequest);
-            
+
             OutputHelper.WriteLine("Deserialized gas estimation:");
             Dump(gasEstimation);
-            
+
             Assert.True(gasEstimation.GasEstimate > 0);
         }
 
@@ -252,14 +252,14 @@ namespace CosmosApi.Test.Endpoints
         public async Task PostRedelegationCompletes()
         {
             using var client = CreateClient(Configuration.LocalBaseUrl);
-            
+
             var baseRequest = await client.CreateBaseReq(Configuration.LocalDelegator1Address, null, null, null, null, null);
             var redelegationRequest = new RedelegateRequest(baseRequest, Configuration.LocalDelegator1Address, Configuration.LocalValidator1Address, Configuration.LocalValidator2Address, new Coin("stake", 10));
 
             var tx = await client
                 .Staking
                 .PostRedelegationAsync(redelegationRequest);
-            
+
             OutputHelper.WriteLine("Deserialized tx:");
             Dump(tx);
 
@@ -282,10 +282,10 @@ namespace CosmosApi.Test.Endpoints
             var validators = await client
                 .Staking
                 .GetValidatorsAsync();
-            
+
             OutputHelper.WriteLine("Deserialized validators:");
             Dump(validators);
-            
+
             Assert.NotEmpty(validators.Result);
             Assert.All(validators.Result, ValidatorNotEmpty);
         }
@@ -311,10 +311,10 @@ namespace CosmosApi.Test.Endpoints
             var validators = await client
                 .Staking
                 .GetValidatorsAsync(BondStatus.Bonded, limit: 3);
-            
+
             OutputHelper.WriteLine("Deserialized validators:");
             Dump(validators);
-            
+
             Assert.True(validators.Result.Count <= 3);
             Assert.True(validators.Result.All(v => v.Status == BondStatus.Bonded));
             Assert.All(validators.Result, ValidatorNotEmpty);
@@ -328,7 +328,7 @@ namespace CosmosApi.Test.Endpoints
             var validators = await client
                 .Staking
                 .GetValidatorsAsync(Configuration.LocalAccount1Address);
-            
+
             OutputHelper.WriteLine("Deserialized validators:");
             Dump(validators);
 
@@ -346,10 +346,10 @@ namespace CosmosApi.Test.Endpoints
             var validator = await client
                 .Staking
                 .GetValidatorAsync(Configuration.LocalAccount1Address, Configuration.LocalValidator1Address);
-            
+
             OutputHelper.WriteLine("Deserialized validator:");
             Dump(validator);
-            
+
             Assert.Equal(Configuration.LocalValidator1Address, validator.Result.OperatorAddress);
             ValidatorNotEmpty(validator.Result);
         }
@@ -362,10 +362,10 @@ namespace CosmosApi.Test.Endpoints
             var txs = await client
                 .Staking
                 .GetTransactionsAsync(Configuration.LocalAccount1Address);
-            
+
             OutputHelper.WriteLine("Deserialized transactions:");
             Dump(txs);
-            
+
             Assert.NotEmpty(txs);
             Assert.All(txs, tx =>
             {
@@ -386,11 +386,11 @@ namespace CosmosApi.Test.Endpoints
             var txs = await client
                 .Staking
                 .GetTransactionsAsync(Configuration.LocalAccount1Address, txTypes);
-            
+
             OutputHelper.WriteLine("Deserialized transactions:");
             Dump(txs);
 
-            
+
             Assert.NotEmpty(txs);
             Assert.All(txs, tx =>
             {
@@ -407,10 +407,10 @@ namespace CosmosApi.Test.Endpoints
             var validatorResponse = await client
                 .Staking
                 .GetValidatorAsync(Configuration.LocalValidator1Address);
-            
+
             OutputHelper.WriteLine("Deserialized Validator:");
             Dump(validatorResponse);
-            
+
             ValidatorNotEmpty(validatorResponse.Result);
         }
 
@@ -422,7 +422,7 @@ namespace CosmosApi.Test.Endpoints
             var delegations = await client
                 .Staking
                 .GetDelegationsByValidatorAsync(Configuration.LocalValidator1Address);
-            
+
             OutputHelper.WriteLine("Deserialized Delegations:");
             Dump(delegations);
 
@@ -436,13 +436,13 @@ namespace CosmosApi.Test.Endpoints
 
         [Fact]
         public async Task GetUnbondingDelegationsByValidatorCompletes()
-        {    
+        {
             using var client = CreateClient(Configuration.LocalBaseUrl);
 
             var unbondingDelegations = await client
                 .Staking
                 .GetUnbondingDelegationsByValidatorAsync(Configuration.LocalValidator1Address);
-            
+
             OutputHelper.WriteLine("Deserialized Unbonding Delegations:");
             Dump(unbondingDelegations);
             Assert.NotEmpty(unbondingDelegations.Result);
@@ -457,10 +457,10 @@ namespace CosmosApi.Test.Endpoints
             var pool = await client
                 .Staking
                 .GetStakingPoolAsync();
-            
+
             OutputHelper.WriteLine("Deserialized Staking Pool:");
             Dump(pool);
-            
+
             Assert.NotNull(pool);
             Assert.NotNull(pool.Result);
             Assert.True(pool.Result.NotBondedTokens >= 0);
@@ -475,10 +475,10 @@ namespace CosmosApi.Test.Endpoints
             var @params = await client
                 .Staking
                 .GetStakingParamsAsync();
-            
+
             OutputHelper.WriteLine("Deserialized Staking Params:");
             Dump(@params);
-            
+
             Assert.NotNull(@params);
             Assert.NotNull(@params.Result);
             Assert.True(@params.Result.MaxEntries > 0);

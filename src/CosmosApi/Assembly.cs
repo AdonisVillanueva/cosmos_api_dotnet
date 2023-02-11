@@ -1,4 +1,4 @@
 ﻿using System.Runtime.CompilerServices;
 
-[assembly:InternalsVisibleTo("CosmosApi.Test")]
+[assembly: InternalsVisibleTo("CosmosApi.Test")]
 

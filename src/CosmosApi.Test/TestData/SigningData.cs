@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using CosmosApi.Extensions;
+﻿using CosmosApi.Extensions;
 using CosmosApi.Models;
+using System.Collections.Generic;
 
 namespace CosmosApi.Test.TestData
 {

@@ -9,7 +9,7 @@ namespace CosmosApi.Models
     {
         [JsonProperty("base_req")]
         public BaseReq BaseReq { get; set; } = null!;
-        
+
         public UnjailRequest()
         {
         }

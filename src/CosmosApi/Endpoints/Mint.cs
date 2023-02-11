@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using CosmosApi.Extensions;
+﻿using CosmosApi.Extensions;
 using CosmosApi.Models;
 using ExtendedNumerics;
 using Flurl.Http;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CosmosApi.Endpoints
 {
@@ -16,7 +16,7 @@ namespace CosmosApi.Endpoints
         {
             _clientGetter = clientGetter;
         }
-        
+
         public Task<ResponseWithHeight<MintParams>> GetParamsAsync(long? height = default, CancellationToken cancellationToken = default)
         {
             return _clientGetter()

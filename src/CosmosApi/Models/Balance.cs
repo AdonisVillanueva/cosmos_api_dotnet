@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Numerics;
 using CosmosApi.Serialization;
 using Newtonsoft.Json;
+using System;
+using System.Numerics;
 
 namespace CosmosApi.Models
 {
@@ -26,7 +25,7 @@ namespace CosmosApi.Models
     public class BalanceElement
     {
         [JsonProperty(PropertyName = "denom")]
-        public string? denom { get; set; } 
+        public string? denom { get; set; }
 
         [JsonProperty(PropertyName = "amount")]
         [JsonConverter(typeof(StringNumberConverter))]

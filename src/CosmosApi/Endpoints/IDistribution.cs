@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using CosmosApi.Models;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CosmosApi.Models;
 
 namespace CosmosApi.Endpoints
 {

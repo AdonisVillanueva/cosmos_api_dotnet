@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace CosmosApi.Models
 {
@@ -7,9 +7,9 @@ namespace CosmosApi.Models
     {
         public StringEvent()
         {
-            
+
         }
-        
+
         public StringEvent(string type, IList<Attribute> attributes)
         {
             Type = type;
@@ -18,7 +18,7 @@ namespace CosmosApi.Models
 
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; } = null!;
-        
+
         [JsonProperty(PropertyName = "attributes")]
         public IList<Attribute> Attributes { get; set; } = null!;
     }

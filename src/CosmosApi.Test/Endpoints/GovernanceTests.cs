@@ -1,10 +1,9 @@
-﻿using System;
+﻿using CosmosApi.Models;
+using ExpectedObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Threading.Tasks;
-using CosmosApi.Models;
-using ExpectedObjects;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -13,7 +12,7 @@ namespace CosmosApi.Test.Endpoints
     public class GovernanceTests : BaseTest
     {
         private const ulong ProposalId = 1;
-        
+
         public GovernanceTests(ITestOutputHelper outputHelper) : base(outputHelper)
         {
         }
@@ -26,10 +25,10 @@ namespace CosmosApi.Test.Endpoints
             var proposals = await client
                 .Governance
                 .GetProposalsAsync(depositor: Configuration.LocalAccount1Address);
-            
+
             OutputHelper.WriteLine("Deserialized Proposals:");
             Dump(proposals);
-            
+
             Assert.True(proposals.Height > 0);
             Assert.All(proposals.Result, proposal =>
             {
@@ -74,10 +73,10 @@ namespace CosmosApi.Test.Endpoints
             var gasEstimation = await client
                 .Governance
                 .PostProposalSimulationAsync<TextProposal>(baseReq, "title", "description", Configuration.LocalDelegator1Address, initialDeposit);
-            
+
             OutputHelper.WriteLine("Deserialized Gas Estimation");
             Dump(gasEstimation);
-            
+
             Assert.True(gasEstimation.GasEstimate > 0);
         }
 
@@ -98,10 +97,10 @@ namespace CosmosApi.Test.Endpoints
             var stdTx = await client
                 .Governance
                 .PostProposalAsync<TextProposal>(baseReq, "title", "description", Configuration.LocalDelegator1Address, initialDeposit);
-            
+
             OutputHelper.WriteLine("Deserialized Gas Estimation");
             Dump(stdTx);
-            
+
             Assert.NotNull(stdTx);
             Assert.NotNull(stdTx.Fee);
             Assert.NotEmpty(stdTx.Msg);
@@ -125,10 +124,10 @@ namespace CosmosApi.Test.Endpoints
             var proposal = await client
                 .Governance
                 .GetProposalAsync(1);
-            
+
             OutputHelper.WriteLine("Deserialized Proposal:");
             Dump(proposal);
-            
+
             Assert.NotNull(proposal);
             Assert.NotNull(proposal.Result);
             Assert.NotNull(proposal.Result.Content);
@@ -162,10 +161,10 @@ namespace CosmosApi.Test.Endpoints
             var deposits = await client
                 .Governance
                 .GetDepositsAsync(ProposalId);
-            
+
             OutputHelper.WriteLine("Deserialized Deposits:");
             Dump(deposits);
-            
+
             Assert.All(deposits.Result, d =>
             {
                 Assert.Equal(ProposalId, d.ProposalId);
@@ -192,10 +191,10 @@ namespace CosmosApi.Test.Endpoints
             var estimation = await client
                 .Governance
                 .PostDepositSimulationAsync(ProposalId, depositReq);
-            
+
             OutputHelper.WriteLine("Deserialized Gas Estimation:");
             Dump(estimation);
-            
+
             Assert.True(estimation.GasEstimate > 0);
         }
 
@@ -217,10 +216,10 @@ namespace CosmosApi.Test.Endpoints
             var tx = await client
                 .Governance
                 .PostDepositAsync(ProposalId, depositReq);
-            
+
             OutputHelper.WriteLine("Deserialized StdTx:");
             Dump(tx);
-            
+
             Assert.Equal("memo", tx.Memo);
             var msgDeposit = tx.Msg.OfType<MsgDeposit>().First();
             Assert.Equal(Configuration.LocalAccount1Address, msgDeposit.Depositor, StringComparer.Ordinal);
@@ -245,10 +244,10 @@ namespace CosmosApi.Test.Endpoints
             var deposit = await client
                 .Governance
                 .GetDepositAsync(ProposalId, expectedDeposit.Depositor);
-            
+
             OutputHelper.WriteLine("Deserialized Deposit:");
             Dump(deposit);
-            
+
             expectedDeposit.ToExpectedObject()
                 .ShouldMatch(deposit.Result);
         }
@@ -261,7 +260,7 @@ namespace CosmosApi.Test.Endpoints
             var votes = await client
                 .Governance
                 .GetVotesAsync(ProposalId);
-            
+
             OutputHelper.WriteLine("Deserizalized Votes");
             Dump(votes);
             Assert.NotEmpty(votes.Result);
@@ -284,13 +283,13 @@ namespace CosmosApi.Test.Endpoints
             var gasEstimation = await client
                 .Governance
                 .PostVoteSimulationAsync(ProposalId, voteReq);
-            
+
             OutputHelper.WriteLine("Deserialized Gas Estimation:");
             Dump(gasEstimation);
-            
+
             Assert.True(gasEstimation.GasEstimate > 0);
         }
- 
+
         [Fact]
         public async Task PostVoteNotEmpty()
         {
@@ -302,7 +301,7 @@ namespace CosmosApi.Test.Endpoints
             var tx = await client
                 .Governance
                 .PostVoteAsync(ProposalId, voteReq);
-            
+
             OutputHelper.WriteLine("Deserialized StdTx:");
             Dump(tx);
 
@@ -324,14 +323,14 @@ namespace CosmosApi.Test.Endpoints
                 .GetVotesAsync(ProposalId);
 
             var expectedVote = votes.Result.Last();
-            
+
             var vote = await client
                 .Governance
                 .GetVoteAsync(ProposalId, expectedVote.Voter);
-            
+
             OutputHelper.WriteLine("Deserialized Vote");
             Dump(vote);
-            
+
             expectedVote.ToExpectedObject()
                 .ShouldMatch(vote.Result);
         }
@@ -344,10 +343,10 @@ namespace CosmosApi.Test.Endpoints
             var tally = await client
                 .Governance
                 .GetTallyAsync(ProposalId);
-            
+
             OutputHelper.WriteLine("Deserialized Tally:");
             Dump(tally);
-            Assert.True(tally.Result.Yes > 0);            
+            Assert.True(tally.Result.Yes > 0);
         }
 
         [Fact]
@@ -358,10 +357,10 @@ namespace CosmosApi.Test.Endpoints
             var depositParams = await client
                 .Governance
                 .GetDepositParamsAsync();
-            
+
             OutputHelper.WriteLine("Deserialized Deposit Params:");
             Dump(depositParams);
-            
+
             Assert.True(depositParams.Result.MaxDepositPeriod > 0);
             Assert.True(depositParams.Result.MinDeposit![0].Amount > 0);
             Assert.NotEmpty(depositParams.Result.MinDeposit[0].Denom);
@@ -375,14 +374,14 @@ namespace CosmosApi.Test.Endpoints
             var tallyParams = await client
                 .Governance
                 .GetTallyParamsAsync();
-            
+
             OutputHelper.WriteLine("Deserialized Tally Params:");
             Dump(tallyParams);
-            
+
             Assert.True(tallyParams.Result.Quorum > 0);
             Assert.True(tallyParams.Result.Threshold > 0);
             Assert.True(tallyParams.Result.Veto > 0);
-            
+
         }
 
         [Fact]
@@ -393,10 +392,10 @@ namespace CosmosApi.Test.Endpoints
             var votingParams = await client
                 .Governance
                 .GetVotingParamsAsync();
-            
+
             OutputHelper.WriteLine("Deserialized Voting Params:");
             Dump(votingParams);
-            
+
             Assert.True(votingParams.Result.VotingPeriod > 0);
         }
     }

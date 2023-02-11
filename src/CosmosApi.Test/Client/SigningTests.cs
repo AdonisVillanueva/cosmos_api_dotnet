@@ -1,11 +1,8 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using CosmosApi.Extensions;
+using CosmosApi.Test.TestData;
+using System;
 using System.Text;
 using System.Threading.Tasks;
-using CosmosApi.Crypto;
-using CosmosApi.Extensions;
-using CosmosApi.Test.TestData;
-using NBitcoin.Secp256k1;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -31,13 +28,13 @@ namespace CosmosApi.Test.Client
             OutputHelper.WriteLine("SignBytes:");
             OutputHelper.WriteLine(bytes.ToHexString());
             OutputHelper.WriteLine("");
-            
+
             var expectedBytes = SigningData.StdSignDocBytes();
             OutputHelper.WriteLine("Expected SignBytes:");
             OutputHelper.WriteLine(expectedBytes.ToHexString());
             OutputHelper.WriteLine("");
 
-            Assert.Equal( 
+            Assert.Equal(
                 expectedBytes,
                 bytes);
         }
@@ -51,7 +48,7 @@ namespace CosmosApi.Test.Client
             random.NextBytes(bytesToSign);
             var privateKey = client.CryptoService.ParsePrivateKey(Configuration.LocalAccount1PrivateKey, Configuration.LocalAccount1Passphrase);
             var account = await client.Auth.GetAuthAccountByAddressAsync(Configuration.LocalAccount1Address);
-            
+
             OutputHelper.WriteLine("Signing random bytes:");
             OutputHelper.WriteLine(bytesToSign.ToBase64String());
             OutputHelper.WriteLine("");

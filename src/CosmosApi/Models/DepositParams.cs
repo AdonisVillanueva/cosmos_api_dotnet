@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using CosmosApi.Serialization;
+﻿using CosmosApi.Serialization;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace CosmosApi.Models
 {
@@ -14,7 +14,7 @@ namespace CosmosApi.Models
         /// </summary>
         [JsonProperty("min_deposit")]
         public IList<Coin>? MinDeposit { get; set; }
-        
+
         /// <summary>
         /// Maximum period in nanoseconds for Atom holders to deposit on a proposal.
         /// </summary>

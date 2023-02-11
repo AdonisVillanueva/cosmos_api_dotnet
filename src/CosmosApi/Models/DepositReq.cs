@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace CosmosApi.Models
 {
@@ -10,7 +10,7 @@ namespace CosmosApi.Models
     {
         [JsonProperty("base_req")]
         public BaseReq BaseReq { get; set; } = null!;
-        
+
         /// <summary>
         /// Address of the depositor.
         /// </summary>

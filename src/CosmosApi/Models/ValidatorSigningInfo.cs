@@ -1,5 +1,5 @@
-using System;
 using Newtonsoft.Json;
+using System;
 
 namespace CosmosApi.Models
 {
@@ -34,8 +34,8 @@ namespace CosmosApi.Models
         /// Missed blocks counter (to avoid scanning the array every time). 
         /// </summary>
         [JsonProperty("missed_blocks_counter")]
-        public long MissedBlocksCounter { get; set; } 
-        
+        public long MissedBlocksCounter { get; set; }
+
         public ValidatorSigningInfo()
         {
         }

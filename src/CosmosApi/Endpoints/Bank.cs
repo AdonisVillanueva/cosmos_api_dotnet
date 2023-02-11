@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using CosmosApi.Extensions;
+using CosmosApi.Models;
+using Flurl.Http;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CosmosApi.Extensions;
-using CosmosApi.Models;
-using Flurl;
-using Flurl.Http;
-using Flurl.Util;
 
 namespace CosmosApi.Endpoints
 {
@@ -28,7 +24,6 @@ namespace CosmosApi.Endpoints
                                 .Request("cosmos/bank/v1beta1/", "balances", address)
                                 .GetAsync()
                                 .WrapExceptions();
-
 
             if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out blockHeight))
             {

@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using CosmosApi.Callbacks;
+﻿using CosmosApi.Callbacks;
 using CosmosApi.Crypto;
 using CosmosApi.Endpoints;
 using CosmosApi.Extensions;
 using CosmosApi.Flurl;
-using CosmosApi.Models;
 using CosmosApi.Serialization;
 using Flurl.Http;
 using Flurl.Http.Configuration;
 using Newtonsoft.Json;
+using System;
+using System.Linq;
+using System.Net.Http;
+using System.Threading;
 using ISerializer = CosmosApi.Serialization.ISerializer;
 
 namespace CosmosApi
@@ -27,7 +24,7 @@ namespace CosmosApi
         {
             _settings = settings;
             _flurlClient = new Lazy<IFlurlClient>(CreateClient, LazyThreadSafetyMode.ExecutionAndPublication);
-            
+
             GaiaRest = new GaiaREST(GetClient);
             TendermintRpc = new TendermintRPC(GetClient);
             Transactions = new Transactions(GetClient);
@@ -75,7 +72,7 @@ namespace CosmosApi
                     {
                         s.HttpClientFactory = new DelegateClientFactory(_settings.HttpClientFactory, _settings.CreateMessageHandlerFactory);
                     }
-                    
+
                     if (_settings.OnError != null)
                     {
                         s.OnError = call =>

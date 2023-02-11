@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Threading;
-using System.Threading.Tasks;
-using CosmosApi.Extensions;
+﻿using CosmosApi.Extensions;
 using CosmosApi.Models;
 using Flurl.Http;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CosmosApi.Endpoints
 {
@@ -18,7 +17,7 @@ namespace CosmosApi.Endpoints
         {
             _clientGetter = clientGetter;
         }
-        
+
         public Task<ResponseWithHeight<IList<Delegation>>> GetDelegationsAsync(string delegatorAddr, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
@@ -253,12 +252,12 @@ namespace CosmosApi.Endpoints
         {
             if (txTypes == null || txTypes.Count <= 0)
             {
-                txTypes = (DelegatingTxType[]) Enum.GetValues(typeof(DelegatingTxType));
+                txTypes = (DelegatingTxType[])Enum.GetValues(typeof(DelegatingTxType));
             }
 
             return _clientGetter()
                 .Request("cosmos/staking/v1beta1", "delegators", delegatorAddr, "txs")
-                .SetQueryParam("type",  string.Join("+", txTypes.Select(type => type.EnumMember())), true)
+                .SetQueryParam("type", string.Join("+", txTypes.Select(type => type.EnumMember())), true)
                 .GetJsonAsync<IList<PaginatedTxs>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -339,5 +338,5 @@ namespace CosmosApi.Endpoints
                 .Sync();
         }
     }
-    
+
 }

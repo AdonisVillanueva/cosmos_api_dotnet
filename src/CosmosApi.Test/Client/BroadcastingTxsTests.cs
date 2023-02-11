@@ -1,10 +1,9 @@
-﻿using System;
+﻿using CosmosApi.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
-using CosmosApi.Models;
-using CosmosApi.Test.Endpoints;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -38,7 +37,7 @@ namespace CosmosApi.Test.Client
                 Amount = new List<Coin>(),
                 Gas = 300000,
             };
-            var result = await ((ICosmosApiClient)client).SendAsync( Configuration.LocalAccount1Address, Configuration.LocalAccount2Address, coinsToSend, BroadcastTxMode.Block, fee, Configuration.LocalAccount1PrivateKey, Configuration.LocalAccount1Passphrase, memo);
+            var result = await ((ICosmosApiClient)client).SendAsync(Configuration.LocalAccount1Address, Configuration.LocalAccount2Address, coinsToSend, BroadcastTxMode.Block, fee, Configuration.LocalAccount1PrivateKey, Configuration.LocalAccount1Passphrase, memo);
             OutputHelper.WriteLine("Deserialized broadcast result");
             Dump(result);
             OutputHelper.WriteLine("");
@@ -62,7 +61,7 @@ namespace CosmosApi.Test.Client
             return account
                 .Coins
                 .First(c => string.Equals(c.Denom, denom, StringComparison.Ordinal))
-                .Amount;   
+                .Amount;
         }
     }
 }

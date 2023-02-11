@@ -6,7 +6,7 @@ namespace CosmosApi.Models
     {
         [JsonProperty("title")]
         public string Title { get; set; } = null!;
-        
+
         [JsonProperty("description")]
         public string Description { get; set; } = null!;
 

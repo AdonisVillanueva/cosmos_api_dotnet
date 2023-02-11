@@ -1,6 +1,6 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 
 namespace CosmosApi.Models
 {
@@ -19,28 +19,28 @@ namespace CosmosApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "txhash")]
         public string TxHash { get; set; } = null!;
-        
+
         [JsonProperty(PropertyName = "code")]
         public uint Code { get; set; }
-        
+
         [JsonProperty(PropertyName = "data")]
         public string Data { get; set; } = null!;
-        
+
         [JsonProperty(PropertyName = "raw_log")]
         public string RawLog { get; set; } = null!;
-        
+
         [JsonProperty(PropertyName = "logs")]
         public IList<ABCIMessageLog> Logs { get; set; } = null!;
-        
+
         [JsonProperty(PropertyName = "info")]
         public string Info { get; set; } = null!;
-        
+
         [JsonProperty(PropertyName = "gas_wanted")]
         public long GasWanted { get; set; }
-        
+
         [JsonProperty(PropertyName = "gas_used")]
         public long GasUsed { get; set; }
-        
+
         [JsonProperty(PropertyName = "codespace")]
         public string Codespace { get; set; } = null!;
 

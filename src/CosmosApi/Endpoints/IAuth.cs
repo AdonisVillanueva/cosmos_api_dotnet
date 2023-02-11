@@ -1,6 +1,6 @@
+using CosmosApi.Models;
 using System.Threading;
 using System.Threading.Tasks;
-using CosmosApi.Models;
 
 namespace CosmosApi.Endpoints
 {

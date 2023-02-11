@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Flurl.Http.Configuration;
+using System;
 using System.Net.Http;
-using Flurl.Http.Configuration;
 
 namespace CosmosApi.Flurl
 {

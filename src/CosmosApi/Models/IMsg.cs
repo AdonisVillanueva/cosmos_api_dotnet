@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace CosmosApi.Models
+﻿namespace CosmosApi.Models
 {
     public interface IMsg
     {

@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using CosmosApi.Extensions;
-using CosmosApi.Models;
+﻿using CosmosApi.Models;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace NameserviceApi.Models
 {

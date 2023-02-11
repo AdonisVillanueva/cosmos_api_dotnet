@@ -1,9 +1,8 @@
-﻿using System;
+﻿using CosmosApi.Models;
+using CosmosApi.Serialization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using CosmosApi.Models;
-using CosmosApi.Serialization;
 
 namespace CosmosApi.Crypto
 {
@@ -23,7 +22,7 @@ namespace CosmosApi.Crypto
         /// <param name="publicKey"></param>
         /// <returns></returns>
         BinaryPublicKey ParsePublicKey(PublicKey publicKey);
-        
+
         /// <summary>
         /// Creates a signature for given bytes.
         /// </summary>
@@ -87,6 +86,6 @@ namespace CosmosApi.Crypto
                 .Select(s => MakeStdSignature(chainId, s.Account.GetAccountNumber(), s.Account.GetSequence(), tx.Fee, tx.Msg, tx.Memo, serializer, s.EncodedPrivateKey, s.Passphrase, s.Account.GetPublicKey()))
                 .ToList();
         }
-        
+
     }
 }

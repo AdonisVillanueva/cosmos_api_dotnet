@@ -1,7 +1,6 @@
-using System.Collections.Generic;
+using CosmosApi.Models;
 using System.Threading;
 using System.Threading.Tasks;
-using CosmosApi.Models;
 
 namespace CosmosApi.Endpoints
 {
@@ -28,7 +27,7 @@ namespace CosmosApi.Endpoints
         /// Get if the node is currently syning with other nodes
         /// </remarks>
         NodeSyncingStatus GetSyncing();
-        
+
         /// <summary>
         /// Get the latest block
         /// </summary>
@@ -41,7 +40,7 @@ namespace CosmosApi.Endpoints
         /// Get the latest block
         /// </summary>
         BlockQuery GetLatestBlock();
-        
+
         /// <summary>
         /// Get a block at a certain height
         /// </summary>
@@ -52,7 +51,7 @@ namespace CosmosApi.Endpoints
         /// The cancellation token.
         /// </param>
         Task<BlockQuery> GetBlockByHeightAsync(long height, CancellationToken cancellationToken = default(CancellationToken));
-        
+
         /// <summary>
         /// Get a block at a certain height
         /// </summary>
@@ -60,7 +59,7 @@ namespace CosmosApi.Endpoints
         /// Block height
         /// </param>
         BlockQuery GetBlockByHeight(long height);
-        
+
         /// <summary>
         /// Get the latest validator set
         /// </summary>
@@ -73,7 +72,7 @@ namespace CosmosApi.Endpoints
         /// Get the latest validator set
         /// </summary>
         ResponseWithHeight<ValidatorSet> GetLatestValidatorSet();
-        
+
         /// <summary>
         /// Get a validator set a certain height
         /// </summary>

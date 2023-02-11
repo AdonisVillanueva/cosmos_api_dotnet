@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using CosmosApi.Extensions;
+﻿using CosmosApi.Extensions;
 using Flurl.Http.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CosmosApi.Serialization
 {
@@ -17,7 +17,7 @@ namespace CosmosApi.Serialization
         {
             _settings = settings;
         }
-        
+
         public string SerializeJson<T>(T value)
         {
             return new NewtonsoftJsonSerializer(_settings).Serialize(value);
@@ -45,7 +45,7 @@ namespace CosmosApi.Serialization
             SortJson(jObject);
             return jObject.ToString(Formatting.None, _settings.Converters.ToArray());
         }
-        
+
         /// <summary>
         /// Sorts keys inside jObject alphabetically.
         /// </summary>
@@ -59,7 +59,7 @@ namespace CosmosApi.Serialization
                 prop.Remove();
             }
 
-            foreach (var prop in props.OrderBy(p=>p.Name))
+            foreach (var prop in props.OrderBy(p => p.Name))
             {
                 jObject.Add(prop);
                 Sort(prop.Value);
@@ -76,8 +76,8 @@ namespace CosmosApi.Serialization
                 case JArray array:
                     array.ForEach(Sort);
                     break;
-                default: 
-                    return; 
+                default:
+                    return;
             }
         }
     }

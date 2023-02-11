@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using CosmosApi.Extensions;
+﻿using CosmosApi.Extensions;
 using CosmosApi.Models;
 using Flurl.Http;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CosmosApi.Endpoints
 {
@@ -23,7 +23,7 @@ namespace CosmosApi.Endpoints
                 .GetJsonAsync<NodeStatus>(cancellationToken: cancellationToken)
                 .WrapExceptions();
         }
-        
+
         public Task<NodeStatus> GetNodeInfoAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             return InternalGetNodeInfoAsync(cancellationToken).WrapExceptions();

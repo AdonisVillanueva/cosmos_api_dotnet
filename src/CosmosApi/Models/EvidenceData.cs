@@ -7,7 +7,7 @@ namespace CosmosApi.Models
         public EvidenceData()
         {
         }
-        
+
         public EvidenceData(object? evidence)
         {
             Evidence = evidence;

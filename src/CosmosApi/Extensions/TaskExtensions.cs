@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Flurl.Http;
 using System.Threading.Tasks;
-using Flurl.Http;
 
 namespace CosmosApi.Extensions
 {

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Globalization;
-using ExtendedNumerics;
+﻿using ExtendedNumerics;
 using Newtonsoft.Json;
+using System;
+using System.Globalization;
 
 namespace CosmosApi.Serialization
 {

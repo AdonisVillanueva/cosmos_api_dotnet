@@ -11,7 +11,7 @@ namespace CosmosApi.Models
         public Attribute()
         {
         }
-        
+
         public Attribute(string key, string value)
         {
             Key = key;

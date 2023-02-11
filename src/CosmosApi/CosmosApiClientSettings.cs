@@ -1,13 +1,13 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 using CosmosApi.Callbacks;
 using CosmosApi.Crypto;
 using CosmosApi.Models;
 using CosmosApi.Serialization;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace CosmosApi
 {
@@ -20,7 +20,7 @@ namespace CosmosApi
         public CosmosApiClientSettings()
         {
         }
-        
+
         /// <summary>
         /// Base url of cosmos api rest server.
         /// </summary>
@@ -34,7 +34,7 @@ namespace CosmosApi
         /// <summary>
         /// Specifies the password to use for the authorization.
         /// </summary>
-        public string? Password  { get; set; }
+        public string? Password { get; set; }
 
         /// <summary>
         /// Specifies the time to keep the underlying HTTP/TCP conneciton open. When expired, a Connection: close header
@@ -89,7 +89,7 @@ namespace CosmosApi
         /// HTTP status code is returned in the response.
         /// </summary>
         public Func<Error, Task>? OnErrorAsync { get; set; }
-        
+
         /// <summary>
         /// List of custom json converters. 
         /// </summary>
@@ -99,13 +99,13 @@ namespace CosmosApi
         /// Set of cryptography operations.
         /// </summary>
         public ICryptoService CryptoService { get; set; } = new CosmosCryptoService();
-        
+
         internal TypeValueConverter<ITx> TxConverter { get; } = new TypeValueConverter<ITx>($"Call {nameof(ICosmosApiBuilder)}.{nameof(ICosmosApiBuilder.RegisterTxType)} to register discriminator/type pair.");
-        
+
         internal TypeValueConverter<IMsg> MsgConverter { get; } = new TypeValueConverter<IMsg>($"Call {nameof(ICosmosApiBuilder)}.{nameof(ICosmosApiBuilder.RegisterMsgType)} to register discriminator/type pair.");
 
         internal TypeValueConverter<IAccount> AccountConverter { get; } = new TypeValueConverter<IAccount>($"Call {nameof(ICosmosApiBuilder)}.{nameof(ICosmosApiBuilder.RegisterAccountType)} to register discriminator/type pair.");
-        
+
         internal TypeValueConverter<IProposalContent> ProposalContentConverter { get; } = new TypeValueConverter<IProposalContent>($"Call {nameof(ICosmosApiBuilder)}.{nameof(ICosmosApiBuilder.RegisterAccountType)} to register discriminator/type pair.");
     }
 }

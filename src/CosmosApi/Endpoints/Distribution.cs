@@ -1,10 +1,10 @@
-﻿using System;
+﻿using CosmosApi.Extensions;
+using CosmosApi.Models;
+using Flurl.Http;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CosmosApi.Extensions;
-using CosmosApi.Models;
-using Flurl.Http;
 
 namespace CosmosApi.Endpoints
 {
@@ -16,7 +16,7 @@ namespace CosmosApi.Endpoints
         {
             _clientGetter = clientGetter;
         }
-        
+
         public Task<ResponseWithHeight<DelegatorTotalRewards>> GetDelegatorRewardsAsync(string delegatorAddress, CancellationToken cancellationToken = default)
         {
             return _clientGetter()

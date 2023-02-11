@@ -1,10 +1,10 @@
-﻿using System;
+﻿using CosmosApi.Extensions;
+using CosmosApi.Models;
+using Flurl.Http;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CosmosApi.Extensions;
-using CosmosApi.Models;
-using Flurl.Http;
 
 namespace CosmosApi.Endpoints
 {
@@ -16,7 +16,7 @@ namespace CosmosApi.Endpoints
         {
             _clientGetter = clientGetter;
         }
-        
+
         public async Task<ResponseWithHeight<IList<Proposal>>> GetProposalsAsync(string? voter = default, string? depositor = default, ProposalStatus? status = default,
             ulong? limit = default, CancellationToken cancellationToken = default)
         {
@@ -24,7 +24,7 @@ namespace CosmosApi.Endpoints
             ResponseWithHeight<IList<Proposal>> rProposal = new();
 
             var clientResponse = await _clientGetter()
-                .Request("cosmos/gov/v1","proposals")
+                .Request("cosmos/gov/v1", "proposals")
                 .SetQueryParam("voter", voter)
                 .SetQueryParam("depositor", depositor)
                 .SetQueryParam("status", status)
@@ -70,7 +70,7 @@ namespace CosmosApi.Endpoints
         private static string ProposalContentTypeFromType(Type proposalContentType)
         {
             var contentSample =
-                (IProposalContent) proposalContentType.GetConstructor(Type.EmptyTypes)!.Invoke(Array.Empty<object>());
+                (IProposalContent)proposalContentType.GetConstructor(Type.EmptyTypes)!.Invoke(Array.Empty<object>());
             return contentSample.GetProposalType();
         }
 
@@ -105,7 +105,7 @@ namespace CosmosApi.Endpoints
         {
             var baseReq = new BaseReqWithSimulate(request.BaseReq, false);
             request = new PostProposalReq(baseReq, request.Title, request.Description, request.ProposalType, request.Proposer, request.InitialDeposit);
-            
+
             return _clientGetter()
                 .Request("cosmos/gov/v1", "proposals")
                 .PostJsonAsync(request, cancellationToken)

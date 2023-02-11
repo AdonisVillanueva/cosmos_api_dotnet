@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using CosmosApi.Models;
+using System.Linq;
 using System.Threading.Tasks;
-using CosmosApi.Models;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -23,7 +23,7 @@ namespace CosmosApi.Test.Endpoints
             var signingInfo = await client.Slashing.GetSigningInfoAsync(validator.ConsPubKey);
             OutputHelper.WriteLine("Deserizalized ValidatorSigningInfo");
             Dump(signingInfo);
-            
+
             Assert.NotEmpty(signingInfo.Result.Address);
         }
 
@@ -37,7 +37,7 @@ namespace CosmosApi.Test.Endpoints
                 .GetSigningInfosAsync();
             OutputHelper.WriteLine("Deserizalized ValidatorSigningInfos");
             Dump(signingInfos);
-            
+
             Assert.NotEmpty(signingInfos.Result);
             Assert.All(signingInfos.Result, s => Assert.NotEmpty(s.Address));
         }
@@ -54,7 +54,7 @@ namespace CosmosApi.Test.Endpoints
                 .PostUnjailSimulationAsync(Configuration.LocalValidator1Address, new UnjailRequest(baseReq));
             OutputHelper.WriteLine("Deserialized GasEstimation:");
             Dump(gasEstimation);
-            
+
             Assert.True(gasEstimation.GasEstimate > 0);
         }
 
@@ -86,7 +86,7 @@ namespace CosmosApi.Test.Endpoints
                 .GetParametersAsync();
             OutputHelper.WriteLine("Deserialized Slashing Params:");
             Dump(slashingParams);
-            
+
             Assert.True(slashingParams.Result.DowntimeJailDuration > 0);
             Assert.True(slashingParams.Result.MaxEvidenceAge > 0);
             Assert.True(slashingParams.Result.SignedBlocksWindow > 0);

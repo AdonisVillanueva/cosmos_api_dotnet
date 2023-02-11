@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using CosmosApi.Models;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CosmosApi.Models;
 
 namespace CosmosApi.Endpoints
 {
@@ -73,7 +73,7 @@ namespace CosmosApi.Endpoints
         /// <param name="validatorAddr">Bech32 OperatorAddress of validator</param>
         /// <returns></returns>
         ResponseWithHeight<Delegation> GetDelegationByValidator(string delegatorAddr, string validatorAddr);
-        
+
         /// <summary>
         /// Get all unbonding delegations from a delegator.
         /// </summary>
@@ -81,14 +81,14 @@ namespace CosmosApi.Endpoints
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<ResponseWithHeight<IList<UnbondingDelegation>>> GetUnbondingDelegationsAsync(string delegatorAddr, CancellationToken cancellationToken = default);
-        
+
         /// <summary>
         /// Get all unbonding delegations from a delegator.
         /// </summary>
         /// <param name="delegatorAddr">Bech32 AccAddress of Delegator</param>
         /// <returns></returns>
         ResponseWithHeight<IList<UnbondingDelegation>> GetUnbondingDelegations(string delegatorAddr);
-        
+
         /// <summary>
         /// Submit an unbonding delegation
         /// </summary>
@@ -103,7 +103,7 @@ namespace CosmosApi.Endpoints
         /// <param name="request"></param>
         /// <returns></returns>
         GasEstimateResponse PostUnbondingDelegationSimulation(UndelegateRequest request);
-        
+
         /// <summary>
         /// Submit an unbonding delegation
         /// </summary>
@@ -118,7 +118,7 @@ namespace CosmosApi.Endpoints
         /// <param name="request"></param>
         /// <returns></returns>
         StdTx PostUnbondingDelegation(UndelegateRequest request);
-        
+
         /// <summary>
         /// Query all unbonding delegations between a delegator and a validator.
         /// </summary>
@@ -127,7 +127,7 @@ namespace CosmosApi.Endpoints
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<ResponseWithHeight<UnbondingDelegation>> GetUnbondingDelegationsByValidatorAsync(string delegatorAddr, string validatorAddr, CancellationToken cancellationToken = default);
-        
+
         /// <summary>
         /// Query all unbonding delegations between a delegator and a validator.
         /// </summary>
@@ -218,7 +218,7 @@ namespace CosmosApi.Endpoints
         /// <param name="delegatorAddr">Bech32 AccAddress of Delegator.</param>
         /// <returns></returns>
         ResponseWithHeight<IList<Validator>> GetValidators(string delegatorAddr);
-        
+
         /// <summary>
         /// Query a validator that a delegator is bonded to.
         /// </summary>
@@ -267,7 +267,7 @@ namespace CosmosApi.Endpoints
         /// <param name="validatorAddr">Bech32 OperatorAddress of validator</param>
         /// <returns></returns>
         ResponseWithHeight<Validator> GetValidator(string validatorAddr);
- 
+
         /// <summary>
         /// Get all delegations from a validator.
         /// </summary>
@@ -275,14 +275,14 @@ namespace CosmosApi.Endpoints
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<ResponseWithHeight<IList<Delegation>>> GetDelegationsByValidatorAsync(string validatorAddr, CancellationToken cancellationToken = default);
- 
+
         /// <summary>
         /// Get all delegations from a validator.
         /// </summary>
         /// <param name="validatorAddr">Bech32 OperatorAddress of validator</param>
         /// <returns></returns>
         ResponseWithHeight<IList<Delegation>> GetDelegationsByValidator(string validatorAddr);
- 
+
         /// <summary>
         /// Get all unbonding delegations from a validator.
         /// </summary>
@@ -290,7 +290,7 @@ namespace CosmosApi.Endpoints
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         Task<ResponseWithHeight<IList<UnbondingDelegation>>> GetUnbondingDelegationsByValidatorAsync(string validatorAddr, CancellationToken cancellationToken = default);
- 
+
         /// <summary>
         /// Get all unbonding delegations from a validator.
         /// </summary>

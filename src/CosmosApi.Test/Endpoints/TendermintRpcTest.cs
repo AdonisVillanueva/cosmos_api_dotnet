@@ -1,6 +1,6 @@
-﻿using System.Net;
+﻿using CosmosApi.Models;
+using System.Net;
 using System.Threading.Tasks;
-using CosmosApi.Models;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -21,7 +21,7 @@ namespace CosmosApi.Test.Endpoints
             OutputHelper.WriteLine("Deserialized into");
             Dump(syncData);
         }
-        
+
         [Fact]
         public void SyncSyncingCompletes()
         {
@@ -82,7 +82,7 @@ namespace CosmosApi.Test.Endpoints
             var block = await client.TendermintRpc.GetBlockByHeightAsync(1);
             OutputHelper.WriteLine("Deserialized into");
             Dump(block);
-            
+
             AssertBlockNotEmpty(block);
         }
 
@@ -150,10 +150,10 @@ namespace CosmosApi.Test.Endpoints
             var validatorSet = client.TendermintRpc.GetLatestValidatorSet();
             OutputHelper.WriteLine("Deserialized into");
             Dump(validatorSet);
-            
+
             AssertValidatorSetNotEmpty(validatorSet.Result);
         }
-        
+
         [Fact]
         public async Task AsyncValidatorSetByHeightMaxLongHeightFailsWith404()
         {
