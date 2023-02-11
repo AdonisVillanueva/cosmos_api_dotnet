@@ -22,5 +22,6 @@ namespace CosmosApi.Endpoints
         /// </param>
         Task<ResponseWithHeight<Balance>> GetBankBalancesByAddressAsync(string address, CancellationToken cancellationToken = default);
 
+        ResponseWithHeight<Balance> GetBankBalancesByAddress(string address);
     }
 }

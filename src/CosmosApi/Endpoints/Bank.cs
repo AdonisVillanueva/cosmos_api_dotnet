@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 using CosmosApi.Extensions;
@@ -18,25 +19,30 @@ namespace CosmosApi.Endpoints
         {
             _clientGetter = clientGetter;
         }
-
         public async Task<ResponseWithHeight<Balance>> GetBankBalancesByAddressAsync(string address, CancellationToken cancellationToken = default)
         {
             string blockHeight;
-            ResponseWithHeight<Balance> rBank = new ResponseWithHeight<Balance>();            
+            ResponseWithHeight<Balance> rBank = new ResponseWithHeight<Balance>();
 
-            IFlurlResponse response = (IFlurlResponse) await "http://localhost:1317"
-                    .AppendPathSegments("cosmos", "bank", "v1beta1", "balances")
-                    .AppendPathSegment(address)
-                    .GetAsync();            
+            var clientResponse = await _clientGetter()
+                                .Request("cosmos/bank/v1beta1/", "balances", address)
+                                .GetAsync()
+                                .WrapExceptions();
 
-            if(response.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out blockHeight))
+
+            if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out blockHeight))
             {
                 rBank.Height = (long)Convert.ToDouble(blockHeight);
             };
 
-            rBank.Result = await response.GetJsonAsync<Balance>().WrapExceptions();
-
+            rBank.Result = await clientResponse.GetJsonAsync<Balance>()
+                                .WrapExceptions();
             return rBank;
+        }
+        public ResponseWithHeight<Balance> GetBankBalancesByAddress(string address)
+        {
+            return GetBankBalancesByAddressAsync(address)
+                .Sync();
         }
     }
 }

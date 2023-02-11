@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -19,23 +20,23 @@ namespace CosmosApi.Test.Endpoints
 
             OutputHelper.WriteLine("Deserialized into");
             Dump(balance);
-            
-            //Assert.NotEmpty(balance.Result.balances);
-            //Assert.All(balance.balances., CoinNotEmpty);
+
+            Assert.NotEmpty((IEnumerable)balance);
+            //All((IEnumerable)balance, CoinNotEmpty);
         }
 
-        //[Fact]
-        //public void SyncGetBankBalanceByAddressNotEmpty()
-        //{
-        //    using var client = CreateClient(Configuration.LocalBaseUrl);
-        //    var balance =
-        //        client.Bank.GetBankBalancesByAddress(Configuration.LocalAccount1Address);
+        [Fact]
+        public void SyncGetBankBalanceByAddressNotEmpty()
+        {
+            using var client = CreateClient(Configuration.LocalBaseUrl);
+            var balance =
+                client.Bank.GetBankBalancesByAddress(Configuration.LocalAccount1Address);
 
-        //    OutputHelper.WriteLine("Deserialized into");
-        //    Dump(balance);
+            OutputHelper.WriteLine("Deserialized into");
+            Dump(balance);
 
-        //    //Assert.NotEmpty(balance.Result.balances);
-        //    //Assert.All(balance.Result, CoinNotEmpty);
-        //}
+            Assert.NotEmpty((IEnumerable)balance);
+            //Assert.All(balance.Result.balance, CoinNotEmpty);
+        }
     }
 }

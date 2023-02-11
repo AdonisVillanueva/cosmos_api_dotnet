@@ -19,7 +19,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<IAccount>> GetAuthAccountByAddressAsync(string address, CancellationToken cancellationToken = default(CancellationToken))
         {
             return _clientGetter()
-                .Request("auth", "accounts", address)
+                .Request("cosmos/auth/v1beta1", "accounts", address)
                 .GetJsonAsync<ResponseWithHeight<IAccount>>(cancellationToken: cancellationToken)
                 .WrapExceptions();
         }

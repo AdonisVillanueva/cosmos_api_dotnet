@@ -36,7 +36,7 @@ namespace CosmosApi.Test
                 .CreateClient();
         }
 
-        public ICosmosApiBuilder ConfigureBuilder(string? baseUrl)
+        public ICosmosApiBuilder ConfigureBuilder(string baseUrl)
         {
             return CreateSilentClient(baseUrl)
                 .Configure(s =>

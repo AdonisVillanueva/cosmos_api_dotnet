@@ -32,7 +32,7 @@ namespace CosmosApi.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "evidence")]
+        [JsonProperty(PropertyName = "/cosmos/distribution/v1beta1")]
         public EvidenceData Evidence { get; set; } = null!;
 
         /// <summary>

@@ -155,19 +155,23 @@ namespace CosmosApi.Crypto
                 throw new ArgumentException($"Sign parameter is not a valid compact {Secp256k1} signature.");
             }
 
-            using var sha = new SHA256Managed();
-            return key!.SigVerify(secpEcdsaSignature!, sha.ComputeHash(message));
+            using (SHA512 sha = SHA512.Create())
+            {
+                return key!.SigVerify(secpEcdsaSignature!, sha.ComputeHash(message));
+            }                
         }
 
         internal byte[] SignSecp256k1(byte[] bytesToSign, byte[] key)
         {
-            using var sha = new SHA256Managed();
-            var hashed = sha.ComputeHash(bytesToSign);
-            using var ecKey = Context.Instance.CreateECPrivKey(key);
-            var signature = ecKey.SignECDSARFC6979(hashed);
-            var signedBytes = new byte[64];
-            signature.WriteCompactToSpan(signedBytes);
-            return signedBytes;
+            using (SHA512 sha = SHA512.Create())
+            {
+                var hashed = sha.ComputeHash(bytesToSign);
+                using var ecKey = Context.Instance.CreateECPrivKey(key);
+                var signature = ecKey.SignECDSARFC6979(hashed);
+                var signedBytes = new byte[64];
+                signature.WriteCompactToSpan(signedBytes);
+                return signedBytes;
+            }              
         }
 
         private static byte[] DecryptXsalsa20(byte[] encryptedBytes, byte[] key)
@@ -188,10 +192,11 @@ namespace CosmosApi.Crypto
             var bcrypted = 
                 Org.BouncyCastle.Crypto.Generators.OpenBsdBCrypt.Generate("2a", passphrase.ToCharArray(), salt, 12);
 
-            using var sha = new SHA256Managed();
-            var hashed = sha.ComputeHash( Encoding.UTF8.GetBytes(bcrypted));
-
-            return hashed;
+            using (SHA512 sha = SHA512.Create())
+            {
+                var hashed = sha.ComputeHash(Encoding.UTF8.GetBytes(bcrypted));
+                return hashed;
+            }                
         }
 
         private static (Dictionary<string, string> Headers, byte[] EncryptedBytes) Unarmor(string input)

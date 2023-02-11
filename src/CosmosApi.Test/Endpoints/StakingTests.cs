@@ -176,7 +176,7 @@ namespace CosmosApi.Test.Endpoints
             UnbondingDelegationNotEmpty(result.Result);   
         }
 
-        //[Fact]
+        [Fact]
         //can't figure out how to make redelegate on local network.
         public async Task AsyncGetRedelegationsAllRedelegationsNotEmpty()
         {

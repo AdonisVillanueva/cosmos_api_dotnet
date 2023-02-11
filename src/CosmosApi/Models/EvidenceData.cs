@@ -16,7 +16,7 @@ namespace CosmosApi.Models
         /// <summary>
         /// In v0.37.8 evidence is just object without any fields.
         /// </summary>
-        [JsonProperty("evidence")]
+        [JsonProperty("cosmos/distribution/v1beta1")]
         public object? Evidence { get; set; }
     }
 }

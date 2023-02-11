@@ -20,7 +20,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<DelegatorTotalRewards>> GetDelegatorRewardsAsync(string delegatorAddress, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("distribution", "delegators", delegatorAddress, "rewards")
+                .Request("cosmos/distribution/v1beta1", "delegators", delegatorAddress, "rewards")
                 .GetJsonAsync<ResponseWithHeight<DelegatorTotalRewards>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -37,7 +37,7 @@ namespace CosmosApi.Endpoints
             var baseReq = new BaseReqWithSimulate(request.BaseReq, true);
 
             return _clientGetter()
-                .Request("distribution", "delegators", delegatorAddress, "rewards")
+                .Request("cosmos/distribution/v1beta1", "delegators", delegatorAddress, "rewards")
                 .PostJsonAsync(new WithdrawRewardsRequest(baseReq), cancellationToken)
                 .ReceiveJson<GasEstimateResponse>()
                 .WrapExceptions();
@@ -54,7 +54,7 @@ namespace CosmosApi.Endpoints
             var baseReq = new BaseReqWithSimulate(request.BaseReq, false);
 
             return _clientGetter()
-                .Request("distribution", "delegators", delegatorAddress, "rewards")
+                .Request("cosmos/distribution/v1beta1", "delegators", delegatorAddress, "rewards")
                 .PostJsonAsync(new WithdrawRewardsRequest(baseReq), cancellationToken)
                 .ReceiveJson<StdTx>()
                 .WrapExceptions();
@@ -69,7 +69,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<IList<DecCoin>>> GetDelegatorRewardsAsync(string delegatorAddress, string validatorAddress, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("distribution", "delegators", delegatorAddress, "rewards", validatorAddress)
+                .Request("cosmos/distribution/v1beta1", "delegators", delegatorAddress, "rewards", validatorAddress)
                 .GetJsonAsync<ResponseWithHeight<IList<DecCoin>>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -85,7 +85,7 @@ namespace CosmosApi.Endpoints
             var baseReq = new BaseReqWithSimulate(request.BaseReq, true);
 
             return _clientGetter()
-                .Request("distribution", "delegators", delegatorAddress, "rewards", validatorAddress)
+                .Request("cosmos/distribution/v1beta1", "delegators", delegatorAddress, "rewards", validatorAddress)
                 .PostJsonAsync(new WithdrawRewardsRequest(baseReq), cancellationToken)
                 .ReceiveJson<GasEstimateResponse>()
                 .WrapExceptions();
@@ -103,7 +103,7 @@ namespace CosmosApi.Endpoints
             var baseReq = new BaseReqWithSimulate(request.BaseReq, false);
 
             return _clientGetter()
-                .Request("distribution", "delegators", delegatorAddress, "rewards", validatorAddress)
+                .Request("cosmos/distribution/v1beta1", "delegators", delegatorAddress, "rewards", validatorAddress)
                 .PostJsonAsync(new WithdrawRewardsRequest(baseReq), cancellationToken)
                 .ReceiveJson<StdTx>()
                 .WrapExceptions();
@@ -118,7 +118,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<string>> GetWithdrawAddressAsync(string delegatorAddress, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("distribution", "delegators", delegatorAddress, "withdraw_address")
+                .Request("cosmos/distribution/v1beta1", "delegators", delegatorAddress, "withdraw_address")
                 .GetJsonAsync<ResponseWithHeight<string>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -136,7 +136,7 @@ namespace CosmosApi.Endpoints
             request = new SetWithdrawalAddrRequest(baseReq, request.WithdrawAddress);
 
             return _clientGetter()
-                .Request("distribution", "delegators", delegatorAddress, "withdraw_address")
+                .Request("cosmos/distribution/v1beta1", "delegators", delegatorAddress, "withdraw_address")
                 .PostJsonAsync(request, cancellationToken)
                 .ReceiveJson<GasEstimateResponse>()
                 .WrapExceptions();
@@ -154,7 +154,7 @@ namespace CosmosApi.Endpoints
             request = new SetWithdrawalAddrRequest(baseReq, request.WithdrawAddress);
 
             return _clientGetter()
-                .Request("distribution", "delegators", delegatorAddress, "withdraw_address")
+                .Request("cosmos/distribution/v1beta1", "delegators", delegatorAddress, "withdraw_address")
                 .PostJsonAsync(request, cancellationToken)
                 .ReceiveJson<StdTx>()
                 .WrapExceptions();
@@ -169,7 +169,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<ValidatorDistInfo>> GetValidatorDistributionInfoAsync(string validatorAddress, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("distribution", "validators", validatorAddress)
+                .Request("cosmos/distribution/v1beta1", "validators", validatorAddress)
                 .GetJsonAsync<ResponseWithHeight<ValidatorDistInfo>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -183,7 +183,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<IList<DecCoin>>> GetValidatorOutstandingRewardsAsync(string validatorAddress, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("distribution", "validators", validatorAddress, "outstanding_rewards")
+                .Request("cosmos/distribution/v1beta1", "validators", validatorAddress, "outstanding_rewards")
                 .GetJsonAsync<ResponseWithHeight<IList<DecCoin>>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -197,7 +197,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<IList<DecCoin>>> GetValidatorRewardsAsync(string validatorAddress, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("distribution", "validators", validatorAddress, "rewards")
+                .Request("cosmos/distribution/v1beta1", "validators", validatorAddress, "rewards")
                 .GetJsonAsync<ResponseWithHeight<IList<DecCoin>>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -214,7 +214,7 @@ namespace CosmosApi.Endpoints
             var baseReq = new BaseReqWithSimulate(request.BaseReq, true);
 
             return _clientGetter()
-                .Request("distribution", "validators", validatorAddress, "rewards")
+                .Request("cosmos/distribution/v1beta1", "validators", validatorAddress, "rewards")
                 .PostJsonAsync(new WithdrawRewardsRequest(baseReq), cancellationToken)
                 .ReceiveJson<GasEstimateResponse>()
                 .WrapExceptions();
@@ -231,7 +231,7 @@ namespace CosmosApi.Endpoints
             var baseReq = new BaseReqWithSimulate(request.BaseReq, false);
 
             return _clientGetter()
-                .Request("distribution", "validators", validatorAddress, "rewards")
+                .Request("cosmos/distribution/v1beta1", "validators", validatorAddress, "rewards")
                 .PostJsonAsync(new WithdrawRewardsRequest(baseReq), cancellationToken)
                 .ReceiveJson<StdTx>()
                 .WrapExceptions();
@@ -246,7 +246,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<IList<DecCoin>>> GetCommunityPoolAsync(long? height = default, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("distribution", "community_pool")
+                .Request("cosmos/distribution/v1beta1", "community_pool")
                 .SetQueryParam("height", height)
                 .GetJsonAsync<ResponseWithHeight<IList<DecCoin>>>(cancellationToken)
                 .WrapExceptions();
@@ -261,7 +261,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<DistributionParams>> GetParamsAsync(long? height = default, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("distribution", "parameters")
+                .Request("cosmos/distribution/v1beta1", "parameters")
                 .GetJsonAsync<ResponseWithHeight<DistributionParams>>(cancellationToken)
                 .WrapExceptions();
         }

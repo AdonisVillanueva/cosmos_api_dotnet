@@ -32,7 +32,7 @@ namespace CosmosApi.Serialization
             TypeToJsonName[typeof(T)] = jsonName;
         }
         
-        public override void WriteJson(JsonWriter writer, TBaseType value, JsonSerializer serializer)
+        public override void WriteJson(JsonWriter writer, TBaseType? value, JsonSerializer serializer)
         {
             if (value == null)
             {

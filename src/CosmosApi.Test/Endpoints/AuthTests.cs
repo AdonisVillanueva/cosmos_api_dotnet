@@ -31,7 +31,7 @@ namespace CosmosApi.Test.Endpoints
             Assert.NotEmpty(account.Address);
             Assert.NotEmpty(account.Coins);
             Assert.All(account.Coins, CoinNotEmpty);
-            Assert.NotEmpty(account.PublicKey.Type);
+            Assert.NotEmpty(collection: account.PublicKey.Type);
             Assert.NotEmpty(account.PublicKey.Value);
             Assert.True(account.Sequence > 0);
             Assert.True(account.AccountNumber == 0);

@@ -28,3 +28,5 @@ Console.WriteLine(singleGeocodeResponse);
 
 var responseBalance = await singleGeocodeResponse.GetJsonAsync<Balance>();
 
+Console.WriteLine(responseBalance);
+
