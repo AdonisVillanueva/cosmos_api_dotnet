@@ -13,8 +13,8 @@ namespace CosmosApi.Serialization
     {
         private readonly bool _dontWriteTypeValue = false;
         private string _registerTypeHint = "";
-        internal readonly Dictionary<Type, string> TypeToJsonName = new Dictionary<Type, string>();
-        internal readonly Dictionary<string, Type> JsonNameToType = new Dictionary<string, Type>();
+        internal readonly Dictionary<Type, string> TypeToJsonName = new();
+        internal readonly Dictionary<string, Type> JsonNameToType = new();
 
         public TypeValueConverter(bool dontWriteTypeValue = default)
         {

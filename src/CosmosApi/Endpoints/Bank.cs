@@ -22,7 +22,7 @@ namespace CosmosApi.Endpoints
         public async Task<ResponseWithHeight<Balance>> GetBankBalancesByAddressAsync(string address, CancellationToken cancellationToken = default)
         {
             string blockHeight;
-            ResponseWithHeight<Balance> rBank = new ResponseWithHeight<Balance>();
+            ResponseWithHeight<Balance> rBank = new();
 
             var clientResponse = await _clientGetter()
                                 .Request("cosmos/bank/v1beta1/", "balances", address)

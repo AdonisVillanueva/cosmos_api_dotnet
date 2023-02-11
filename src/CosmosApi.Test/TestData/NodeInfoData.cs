@@ -4,7 +4,7 @@ namespace CosmosApi.Test.TestData
 {
     public class NodeInfoData
     {
-        public static NodeStatus NodeStatus = new NodeStatus()
+        public static NodeStatus NodeStatus = new()
         {
             NodeInfo = new NodeInfo()
             {
