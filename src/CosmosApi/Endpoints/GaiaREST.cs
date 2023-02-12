@@ -19,7 +19,7 @@ namespace CosmosApi.Endpoints
         private Task<NodeStatus> InternalGetNodeInfoAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             var client = _clientGetter();
-            return client.Request("node_info")
+            return client.Request("cosmos/base/tendermint/v1beta1/node_info")
                 .GetJsonAsync<NodeStatus>(cancellationToken: cancellationToken)
                 .WrapExceptions();
         }

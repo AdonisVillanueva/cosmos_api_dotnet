@@ -18,7 +18,7 @@ namespace CosmosApi.Endpoints
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<NodeStatus> GetNodeInfoAsync(CancellationToken cancellationToken = default(CancellationToken));
+        Task<NodeStatus> GetNodeInfoAsync(CancellationToken cancellationToken = default);
         /// <summary>
         /// The properties of the connected node
         /// </summary>

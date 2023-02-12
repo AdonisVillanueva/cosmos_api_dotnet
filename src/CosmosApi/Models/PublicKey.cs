@@ -17,7 +17,7 @@ namespace CosmosApi.Models
         public PublicKey(string? type, string value)
         {
             Type = type;
-            Value = value;
+            Key = value;
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace CosmosApi.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "value")]
-        public string Value { get; set; } = null!;
+        [JsonProperty(PropertyName = "Key")]
+        public string Key { get; set; } = null!;
     }
 }

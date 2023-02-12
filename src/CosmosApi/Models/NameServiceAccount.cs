@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace NameserviceApi.Models
 {
-    public class Account : IAccount
+    public class NameServiceAccount : IAccount
     {
-        [JsonProperty("type")]
+        [JsonProperty("@type")]
         public string Type { get; set; } = null!;
 
         [JsonProperty("address")]
@@ -20,11 +20,11 @@ namespace NameserviceApi.Models
         [JsonProperty("sequence")]
         public ulong Sequence { get; set; }
 
-        public Account()
+        public NameServiceAccount()
         {
         }
 
-        public Account(string address, string type, string publicKey, ulong accountNumber, ulong sequence)
+        public NameServiceAccount(string address, string type, string publicKey, ulong accountNumber, ulong sequence)
         {            
             Type = type;
             Address = address;

@@ -33,6 +33,12 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Reference Include="ExtendedNumerics.BigDecimal">
+        <HintPath>..\..\..\..\..\.nuget\packages\extendednumerics.bigdecimal\2022.346.2122\lib\net6.0-windows7.0\ExtendedNumerics.BigDecimal.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
       <None Update="TestConfiguration.yml">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>

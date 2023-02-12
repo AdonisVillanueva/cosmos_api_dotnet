@@ -16,16 +16,17 @@ namespace CosmosApi.Models
         /// Initializes a new instance of the Get200ApplicationJsonProperties
         /// class.
         /// </summary>
-        public AplicationVersion(string buildTags, string clientName, string commit, string go, string name, string serverName, string version)
+        public AplicationVersion(string buildTags, string appName, string commit, string go, string name, string version, string sdkversion, BuildDep buildDep)
         {
-            BuildTags = buildTags;
-            ClientName = clientName;
-            Commit = commit;
-            Go = go;
             Name = name;
-            ServerName = serverName;
+            AppName = appName;
             Version = version;
-        }
+            Commit = commit;
+            BuildTags = buildTags;
+            Go = go;
+            BuildDep = buildDep;
+            CosmosSDKVersion = sdkversion;
+    }
 
         /// <summary>
         /// </summary>
@@ -34,17 +35,17 @@ namespace CosmosApi.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "client_name")]
-        public string ClientName { get; set; } = null!;
+        [JsonProperty(PropertyName = "app_name")]
+        public string AppName { get; set; } = null!;
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "commit")]
+        [JsonProperty(PropertyName = "git_commit")]
         public string Commit { get; set; } = null!;
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "go")]
+        [JsonProperty(PropertyName = "go_version")]
         public string Go { get; set; } = null!;
 
         /// <summary>
@@ -54,13 +55,15 @@ namespace CosmosApi.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "server_name")]
-        public string ServerName { get; set; } = null!;
-
-        /// <summary>
-        /// </summary>
         [JsonProperty(PropertyName = "version")]
         public string Version { get; set; } = null!;
+        /// <summary>
+        /// </summary>
+        [JsonProperty(PropertyName = "cosmos_sdk_version")]
+        public string CosmosSDKVersion { get; set; }
+
+        [JsonProperty(PropertyName = "build_deps")]
+        public BuildDep BuildDep { get; internal set; }       
 
     }
 }

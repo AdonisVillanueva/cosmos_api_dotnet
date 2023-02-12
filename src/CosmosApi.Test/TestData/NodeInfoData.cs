@@ -14,12 +14,12 @@ namespace CosmosApi.Test.TestData
                     Block = 10,
                     App = 0
                 },
-                Id = "4bb4649d6cec92821f3d54e8c7d83fa6a9c6a4b0",
+                Id = "251236d391b489c6ebcdfcf6c22767f445a1fd99",
                 ListenAddr = "tcp://0.0.0.0:26656",
-                Network = "testing",
+                Network = "IgniteTest",
                 Version = "0.32.9",
-                Channels = "4020212223303800",
-                Moniker = "testing",
+                Channels = "QCAhIiMwOGBhAA==",
+                Moniker = "IgniteTest",
                 Other = new OtherVersionsInformation()
                 {
                     TxIndex = "on",
@@ -28,13 +28,18 @@ namespace CosmosApi.Test.TestData
             },
             ApplicationVersion = new AplicationVersion()
             {
-                Name = "gaia",
-                ServerName = "gaiad",
-                ClientName = "gaiacli",
+                BuildDep = new BuildDep {
+                    Path = "cloud.google.com/go",
+                    Version = "v0.105.0",
+                    Sum = "h1:DNtEKRBAAzeS4KyIory52wWHuClNaXJ5x1F7xa4q+5Y="
+                },
+                Name = "gaia",   
+                AppName = "gaiacli",
                 Version = "",
                 Commit = "",
                 BuildTags = "netgo,ledger",
-                Go = "go version go1.14.2 linux/amd64"
+                Go = "go version go1.14.2 linux/amd64",
+                CosmosSDKVersion = "v0.46.7",                
             }
         };
     }

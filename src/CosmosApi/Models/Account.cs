@@ -2,18 +2,18 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace NameserviceApi.Models
+namespace CosmosApi.Models
 {
     public class Account : IAccount
     {
-        [JsonProperty("type")]
+        [JsonProperty("@type")]
         public string Type { get; set; } = null!;
 
         [JsonProperty("address")]
         public string Address { get; set; } = null!;
 
         [JsonProperty("pub_key")]
-        public string PublicKey { get; set; } = null!;
+        public PublicKey PublicKey { get; set; } = null!;
 
         [JsonProperty("account_number")]
         public ulong AccountNumber { get; set; }
@@ -24,7 +24,7 @@ namespace NameserviceApi.Models
         {
         }
 
-        public Account(string address, string type, string publicKey, ulong accountNumber, ulong sequence)
+        public Account(string address, string type, PublicKey publicKey, ulong accountNumber, ulong sequence)
         {            
             Type = type;
             Address = address;
@@ -35,11 +35,7 @@ namespace NameserviceApi.Models
 
         public PublicKey GetPublicKey()
         {
-            return new PublicKey()
-            {
-                Type = null,
-                Key = PublicKey
-            };
+            return PublicKey;
         }
 
         public ulong GetSequence()

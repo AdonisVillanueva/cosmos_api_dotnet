@@ -28,5 +28,15 @@ namespace CosmosApi.Endpoints
         /// Account address.
         /// </param>
         ResponseWithHeight<IAccount> GetAuthAccountByAddress(string address);
+
+        /// <summary>
+        /// Get all accounts information on blockchain.
+        /// </summary>
+        Task<IAccount> GetAuthAccountsAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Get all accounts information on blockchain.
+        /// </summary>
+        IAccount GetAuthAccounts();
     }
 }
