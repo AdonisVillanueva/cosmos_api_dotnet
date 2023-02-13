@@ -1,30 +1,22 @@
-using CosmosApi.Serialization;
+﻿using ExtendedNumerics;
 using Newtonsoft.Json;
-using System;
-using System.Numerics;
 
 namespace CosmosApi.Models
 {
     public class Balance
     {
-        public BalanceElement[]? Balances { get; set; }
-        public Pagination? Pagination { get; set; }
-    }
-
-    public class BalanceElement
-    {
         [JsonProperty(PropertyName = "denom")]
-        public string? Denom { get; set; }
+        public string Denom { get; set; }
 
         [JsonProperty(PropertyName = "amount")]
-        [JsonConverter(typeof(StringNumberConverter))]
-        public BigInteger Amount { get; set; }
+        public BigDecimal Amount { get; set; }
+
+        public Balance() { }
+
+        public Balance(string denom, BigDecimal amount)
+        {
+            Denom = denom;
+            Amount = amount;
+        }
     }
 }
-
-
-
-
-
-
-

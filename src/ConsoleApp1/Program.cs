@@ -11,8 +11,6 @@ using var client = new CosmosApiBuilder()
 string address = "cosmos1lmgm2eta9wpyr75k5740a802p07mfg3x843pzt";
 
 //Flurl example
-    var balance =
-    await client.Bank.GetBankBalancesByAddressAsync(address);
 
     //IFlurlResponse singleGeocodeResponse = (IFlurlResponse)await "http://localhost:1317"
     //    .AppendPathSegments("cosmos", "bank", "v1beta1", "balances")
@@ -59,3 +57,12 @@ Console.WriteLine(grantee);
 
 var granter = await client.Authz.GetAuthzGrantByGranterAsync("cosmos1lmgm2eta9wpyr75k5740a802p07mfg3x843pzt", null, null, null, null, null);
 Console.WriteLine(granter);
+
+var balance = await client.Bank.GetBankBalancesByAddressAsync(address, null, null, null, null, null);
+Console.WriteLine(balance);
+
+var denom = await client.Bank.GetBankDenomOwnersByDenom("stake");
+Console.WriteLine(denom);
+
+var balanceDenom = await client.Bank.GetBankBalanceByAddressByDenom(address,"stake",null,null,null,null,null);
+Console.WriteLine(balanceDenom);

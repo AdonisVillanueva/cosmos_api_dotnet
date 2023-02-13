@@ -19,8 +19,15 @@ namespace CosmosApi.Endpoints
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<ResponseWithHeight<Balance>> GetBankBalancesByAddressAsync(string address, CancellationToken cancellationToken = default);
+        Task<ResponseWithHeight<BalanceRoot>> GetBankBalancesByAddressAsync(string address, string? paginationKey, int? paginationOffset, int? paginationLimit,
+            bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default);
 
-        ResponseWithHeight<Balance> GetBankBalancesByAddress(string address);
+        ResponseWithHeight<BalanceRoot> GetBankBalancesByAddress(string address, string? paginationKey, int? paginationOffset, int? paginationLimit,
+            bool? paginationCountTotal, bool? paginationReverse);
+
+        Task<ResponseWithHeight<BalanceRoot>> GetBankBalanceByAddressByDenom(string address, string denom, string? paginationKey, int? paginationOffset, int? paginationLimit,
+            bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default);
+
+        Task<DenomOwnersRoot> GetBankDenomOwnersByDenom(string denom, CancellationToken cancellationToken = default);
     }
 }

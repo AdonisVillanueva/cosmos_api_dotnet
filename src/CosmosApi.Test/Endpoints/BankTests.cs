@@ -16,7 +16,7 @@ namespace CosmosApi.Test.Endpoints
         {
             using var client = CreateClient(Configuration.LocalBaseUrl);
             var balance =
-                await client.Bank.GetBankBalancesByAddressAsync(Configuration.LocalAccount1Address);
+                await client.Bank.GetBankBalancesByAddressAsync(Configuration.LocalAccount1Address, null, null, null, null, null);
 
             OutputHelper.WriteLine("Deserialized into");
             Dump(balance);
@@ -30,7 +30,7 @@ namespace CosmosApi.Test.Endpoints
         {
             using var client = CreateClient(Configuration.LocalBaseUrl);
             var balance =
-                client.Bank.GetBankBalancesByAddress(Configuration.LocalAccount1Address);
+                client.Bank.GetBankBalancesByAddress(Configuration.LocalAccount1Address,null,null,null,null,null);
 
             OutputHelper.WriteLine("Deserialized into");
             Dump(balance);
