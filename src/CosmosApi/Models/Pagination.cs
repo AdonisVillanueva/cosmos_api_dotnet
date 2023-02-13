@@ -16,14 +16,14 @@ namespace CosmosApi.Models
         /// <summary>
         /// Initializes a new instance of the Pagination class.
         /// </summary>
-        public Pagination(string? next_key, int total)
+        public Pagination(string? nextKey, int total)
         {
-            Next_Key = next_key;
+            NextKey = nextKey;
             Total = total;
         }
 
         [JsonProperty(PropertyName = "next_key")]
-        public string? Next_Key { get; set; } = null;
+        public string? NextKey { get; set; } = null;
 
         [JsonProperty(PropertyName = "total")]
         [JsonConverter(typeof(StringNumberConverter))]

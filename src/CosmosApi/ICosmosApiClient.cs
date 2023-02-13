@@ -18,13 +18,13 @@ namespace CosmosApi
         ITendermintRPC TendermintRpc { get; }
         ITransactions Transactions { get; }
         IAuth Auth { get; }
+        IAuthz Authz { get; }
         IBank Bank { get; }
         IStaking Staking { get; }
         IGovernance Governance { get; }
         ISlashing Slashing { get; }
         IDistribution Distribution { get; }
         IMint Mint { get; }
-
         HttpClient HttpClient { get; }
         ISerializer Serializer { get; }
         ICryptoService CryptoService { get; }

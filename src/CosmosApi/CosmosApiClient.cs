@@ -29,6 +29,7 @@ namespace CosmosApi
             TendermintRpc = new TendermintRPC(GetClient);
             Transactions = new Transactions(GetClient);
             Auth = new Auth(GetClient);
+            Authz = new Authz(GetClient);
             Bank = new Bank(GetClient);
             Staking = new Staking(GetClient);
             Governance = new Governance(GetClient);
@@ -43,6 +44,7 @@ namespace CosmosApi
         public ITendermintRPC TendermintRpc { get; }
         public ITransactions Transactions { get; }
         public IAuth Auth { get; }
+        public IAuthz Authz { get; }
         public IBank Bank { get; }
         public IStaking Staking { get; }
         public IGovernance Governance { get; }

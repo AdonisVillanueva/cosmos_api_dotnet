@@ -16,7 +16,7 @@ namespace CosmosApi.Models
         /// Initializes a new instance of the Get200ApplicationJsonProperties
         /// class.
         /// </summary>
-        public AplicationVersion(string buildTags, string appName, string commit, string go, string name, string version, string sdkversion, BuildDep buildDep)
+        public AplicationVersion(string buildTags, string appName, string commit, string go, string name, string version, string sdkversion, BuildDep[] buildDep)
         {
             Name = name;
             AppName = appName;
@@ -63,7 +63,7 @@ namespace CosmosApi.Models
         public string CosmosSDKVersion { get; set; }
 
         [JsonProperty(PropertyName = "build_deps")]
-        public BuildDep BuildDep { get; internal set; }       
+        public BuildDep[] BuildDep { get; internal set; }       
 
     }
 }

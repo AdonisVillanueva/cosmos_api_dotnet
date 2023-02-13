@@ -17,10 +17,10 @@ namespace CosmosApi.Models
         public string address { get; set; }
 
         [JsonProperty(PropertyName = "pub_key")]
-        public PublicKey pub_key { get; set; }
+        public PublicKey pubKey { get; set; }
 
         [JsonProperty(PropertyName = "account_number")]
-        public string account_number { get; set; }
+        public string accountNumber { get; set; }
 
         [JsonProperty(PropertyName = "sequence")]
         public string sequence { get; set; }

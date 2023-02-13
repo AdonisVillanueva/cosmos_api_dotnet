@@ -1,4 +1,5 @@
 ﻿using CosmosApi.Models;
+using System.IO;
 
 namespace CosmosApi.Test.TestData
 {
@@ -28,11 +29,7 @@ namespace CosmosApi.Test.TestData
             },
             ApplicationVersion = new AplicationVersion()
             {
-                BuildDep = new BuildDep {
-                    Path = "cloud.google.com/go",
-                    Version = "v0.105.0",
-                    Sum = "h1:DNtEKRBAAzeS4KyIory52wWHuClNaXJ5x1F7xa4q+5Y="
-                },
+                BuildDep = new BuildDep[] { new BuildDep {Path = "cloud.google.com/go", Version = "v0.105.0" , Sum= "h1:DNtEKRBAAzeS4KyIory52wWHuClNaXJ5x1F7xa4q+5Y=" } },                            
                 Name = "gaia",   
                 AppName = "gaiacli",
                 Version = "",

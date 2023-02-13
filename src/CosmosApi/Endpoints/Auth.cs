@@ -19,18 +19,6 @@ namespace CosmosApi.Endpoints
         public async Task<BlockchainAccountRoot> GetAuthAccountsAsync(string? paginationKey, int? paginationOffset, int? paginationLimit, 
             bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default)
         {
-            IAccount rAccounts = new Account();
-
-            var response = await _clientGetter()
-                .Request("cosmos/auth/v1beta1/accounts")
-                .SetQueryParam("pagination.key", paginationKey)
-                .SetQueryParam("pagination.offset", paginationOffset)
-                .SetQueryParam("pagination.limit", paginationLimit)
-                .SetQueryParam("pagination.count_total", paginationCountTotal)
-                .SetQueryParam("pagination.reverse", paginationReverse)
-                .GetAsync()
-                .WrapExceptions();
-
             return await _clientGetter()
                 .Request("cosmos/auth/v1beta1/accounts")
                 .SetQueryParam("pagination.key",paginationKey)
@@ -47,6 +35,44 @@ namespace CosmosApi.Endpoints
             return GetAuthAccountsAsync(paginationKey, paginationOffset, paginationLimit,
             paginationCountTotal, paginationReverse)
             .Sync();
+        }
+
+        public async Task<ResponseWithHeight<BlockchainAccountRoot>> GetAuthModuleAccountsAsync(CancellationToken cancellationToken = default)
+        {
+            ResponseWithHeight<BlockchainAccountRoot> rAccount = new();
+
+            var clientResponse = await _clientGetter()
+                                .Request("cosmos/auth/v1beta1/module_accounts")
+                                .GetAsync()
+                                .WrapExceptions();
+
+            if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out string blockHeight))
+            {
+                rAccount.Height = (long)Convert.ToDouble(blockHeight);
+            };
+
+            rAccount.Result = await clientResponse.GetJsonAsync<BlockchainAccountRoot>()
+                                .WrapExceptions();
+            return rAccount;
+        }
+
+        public async Task<ResponseWithHeight<ModuleAccountRoot>> GetAuthModuleAccountsByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            ResponseWithHeight<ModuleAccountRoot> rAccount = new();
+
+            var clientResponse = await _clientGetter()
+                                .Request("cosmos/auth/v1beta1/module_accounts/", name)
+                                .GetAsync()
+                                .WrapExceptions();
+
+            if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out string blockHeight))
+            {
+                rAccount.Height = (long)Convert.ToDouble(blockHeight);
+            };
+
+            rAccount.Result = await clientResponse.GetJsonAsync<ModuleAccountRoot>()
+                                .WrapExceptions();
+            return rAccount;
         }
 
         public async Task<ResponseWithHeight<IAccount>> GetAuthAccountByAddressAsync(string address, CancellationToken cancellationToken = default)
@@ -97,6 +123,14 @@ namespace CosmosApi.Endpoints
         {
             return GetAuthAccountByIdAsync(id)
                 .Sync();
+        }
+
+        public async Task<AuthParams> GetAuthParamsAsync(CancellationToken cancellationToken = default)
+        {
+            return await _clientGetter()
+                                .Request("cosmos/auth/v1beta1/params")
+                                .GetJsonAsync<AuthParams>(cancellationToken)
+                                .WrapExceptions();
         }
     }
 }
