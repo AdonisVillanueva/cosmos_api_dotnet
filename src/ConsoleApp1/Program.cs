@@ -35,3 +35,10 @@ string address = "cosmos1lmgm2eta9wpyr75k5740a802p07mfg3x843pzt";
 
 var nodeinfo = await client.Auth.GetAuthAccountByAddressAsync("cosmos1lmgm2eta9wpyr75k5740a802p07mfg3x843pzt");
 Console.WriteLine(nodeinfo);
+
+
+var accounts = await client.Auth.GetAuthAccountsAsync(null,null,null,null,null);
+Console.WriteLine(accounts);
+
+var accountbyid = await client.Auth.GetAuthAccountByIdAsync(1);
+Console.WriteLine(accountbyid);

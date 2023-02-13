@@ -16,16 +16,36 @@ namespace CosmosApi.Endpoints
         {
             _clientGetter = clientGetter;
         }
-        public Task<IAccount> GetAuthAccountsAsync(CancellationToken cancellationToken = default)
+        public async Task<BlockchainAccountRoot> GetAuthAccountsAsync(string? paginationKey, int? paginationOffset, int? paginationLimit, 
+            bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default)
         {
-            return _clientGetter()
+            IAccount rAccounts = new Account();
+
+            var response = await _clientGetter()
                 .Request("cosmos/auth/v1beta1/accounts")
-                .GetJsonAsync<IAccount>(cancellationToken: cancellationToken)
+                .SetQueryParam("pagination.key", paginationKey)
+                .SetQueryParam("pagination.offset", paginationOffset)
+                .SetQueryParam("pagination.limit", paginationLimit)
+                .SetQueryParam("pagination.count_total", paginationCountTotal)
+                .SetQueryParam("pagination.reverse", paginationReverse)
+                .GetAsync()
+                .WrapExceptions();
+
+            return await _clientGetter()
+                .Request("cosmos/auth/v1beta1/accounts")
+                .SetQueryParam("pagination.key",paginationKey)
+                .SetQueryParam("pagination.offset",paginationOffset)
+                .SetQueryParam("pagination.limit",paginationLimit)
+                .SetQueryParam("pagination.count_total",paginationCountTotal)
+                .SetQueryParam("pagination.reverse",paginationReverse)
+                .GetJsonAsync<BlockchainAccountRoot>(cancellationToken: cancellationToken)
                 .WrapExceptions();
         }
-        public IAccount GetAuthAccounts()
+        public BlockchainAccountRoot GetAuthAccounts(string? paginationKey, int? paginationOffset, int? paginationLimit,
+            bool? paginationCountTotal, bool? paginationReverse)
         {
-            return GetAuthAccountsAsync()
+            return GetAuthAccountsAsync(paginationKey, paginationOffset, paginationLimit,
+            paginationCountTotal, paginationReverse)
             .Sync();
         }
 
@@ -51,6 +71,31 @@ namespace CosmosApi.Endpoints
         public ResponseWithHeight<IAccount> GetAuthAccountByAddress(string address)
         {
             return GetAuthAccountByAddressAsync(address)
+                .Sync();
+        }
+
+        public async Task<ResponseWithHeight<AccountAddress>> GetAuthAccountByIdAsync(int id, CancellationToken cancellationToken = default)
+        {
+            ResponseWithHeight<AccountAddress> rAccount = new();
+
+            var clientResponse = await _clientGetter()
+                                .Request("cosmos/auth/v1beta1", "address_by_id", id)
+                                .GetAsync()
+                                .WrapExceptions();
+
+            if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out string blockHeight))
+            {
+                rAccount.Height = (long)Convert.ToDouble(blockHeight);
+            };
+
+            rAccount.Result = await clientResponse.GetJsonAsync<AccountAddress>()
+                                .WrapExceptions();
+            return rAccount;
+        }
+
+        public ResponseWithHeight<AccountAddress> GetAuthAccountById(int id)
+        {
+            return GetAuthAccountByIdAsync(id)
                 .Sync();
         }
     }

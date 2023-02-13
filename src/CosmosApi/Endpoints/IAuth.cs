@@ -1,4 +1,7 @@
 using CosmosApi.Models;
+using System.IO;
+using System.Security.Principal;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,6 +27,28 @@ namespace CosmosApi.Endpoints
         /// <summary>
         /// Get the account information on blockchain.
         /// </summary>
+        /// <param name='id'>
+        /// id is the account number of the address to be queried.This field
+        /// should have been an uint64(like all account numbers), and will be
+        /// updated to uint64 in a future version of the auth query.
+        /// </param>
+        ResponseWithHeight<AccountAddress> GetAuthAccountById(int id);
+        /// <summary>
+        /// Get the account information on blockchain.
+        /// </summary>
+        /// <param name='id'>
+        /// id is the account number of the address to be queried.This field
+        /// should have been an uint64(like all account numbers), and will be
+        /// updated to uint64 in a future version of the auth query.
+        /// </param>
+        /// <param name='cancellationToken'>
+        /// The cancellation token.
+        /// </param>
+        Task<ResponseWithHeight<AccountAddress>> GetAuthAccountByIdAsync(int id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Get the account information on blockchain.
+        /// </summary>
         /// <param name='address'>
         /// Account address.
         /// </param>
@@ -32,11 +57,13 @@ namespace CosmosApi.Endpoints
         /// <summary>
         /// Get all accounts information on blockchain.
         /// </summary>
-        Task<IAccount> GetAuthAccountsAsync(CancellationToken cancellationToken = default);
+        Task<BlockchainAccountRoot> GetAuthAccountsAsync(string? paginationKey, int? paginationOffset, int? paginationLimit,
+            bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get all accounts information on blockchain.
         /// </summary>
-        IAccount GetAuthAccounts();
+        BlockchainAccountRoot GetAuthAccounts(string? paginationKey, int? paginationOffset, int? paginationLimit,
+            bool? paginationCountTotal, bool? paginationReverse);
     }
 }

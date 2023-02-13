@@ -94,7 +94,7 @@ namespace CosmosApi
                 configuration.MsgConverter.AddType<MsgUnjail>("cosmos-sdk/MsgUnjail");
                 configuration.MsgConverter.AddType<MsgCreateValidator>("cosmos-sdk/MsgCreateValidator");
 
-                configuration.AccountConverter.AddType<TestAccount>("cosmos-sdk/Account");
+                configuration.AccountConverter.AddType<BaseAccount>("cosmos-sdk/Account");
 
                 configuration.ProposalContentConverter.AddType<TextProposal>("cosmos-sdk/TextProposal");
                 configuration.ProposalContentConverter.AddType<CommunityPoolSpendProposal>("cosmos-sdk/CommunityPoolSpendProposal");

@@ -17,7 +17,6 @@ namespace CosmosApi.Endpoints
         }
         public async Task<ResponseWithHeight<Balance>> GetBankBalancesByAddressAsync(string address, CancellationToken cancellationToken = default)
         {
-            string blockHeight;
             ResponseWithHeight<Balance> rBank = new();
 
             var clientResponse = await _clientGetter()
@@ -25,7 +24,7 @@ namespace CosmosApi.Endpoints
                                 .GetAsync()
                                 .WrapExceptions();
 
-            if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out blockHeight))
+            if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out string blockHeight))
             {
                 rBank.Height = (long)Convert.ToDouble(blockHeight);
             };
