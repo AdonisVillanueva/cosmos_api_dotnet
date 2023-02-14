@@ -5,10 +5,10 @@ namespace CosmosApi.Models
     public class AuthParams
     {
         [JsonProperty(PropertyName = "params")]
-        public Params Parameters { get; set; }
+        public AuthParam Parameters { get; set; }
     }
 
-    public class Params
+    public class AuthParam
     {
         [JsonProperty(PropertyName = "max_memo_characters")]
         public string MaxMemoCharacters { get; set; }
@@ -25,7 +25,7 @@ namespace CosmosApi.Models
         [JsonProperty(PropertyName = "sig_verify_cost_secp256k1")]
         public string SigVerifyCostSecp256k1 { get; set; }
 
-        public Params(string maxMemoCharacters, string txSigLimit, string txSizeCostPerByte, string sigVerifyCostEd25519, string sigVerifyCostSecp256k1)
+        public AuthParam(string maxMemoCharacters, string txSigLimit, string txSizeCostPerByte, string sigVerifyCostEd25519, string sigVerifyCostSecp256k1)
         {
             MaxMemoCharacters = maxMemoCharacters;
             this.txSigLimit = txSigLimit;

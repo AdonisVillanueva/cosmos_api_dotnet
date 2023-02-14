@@ -53,16 +53,33 @@ var grants = await client.Authz.GetAuthzGrantsAsync("cosmos1lmgm2eta9wpyr75k5740
 Console.WriteLine(grants);
 
 var grantee = await client.Authz.GetAuthzGrantByGranteeAsync("cosmos1lmgm2eta9wpyr75k5740a802p07mfg3x843pzt",null,null,null,null,null);
-Console.WriteLine(grantee);
+Console.WriteLine(grantee.Grants.FirstOrDefault());
 
 var granter = await client.Authz.GetAuthzGrantByGranterAsync("cosmos1lmgm2eta9wpyr75k5740a802p07mfg3x843pzt", null, null, null, null, null);
 Console.WriteLine(granter);
 
 var balance = await client.Bank.GetBankBalancesByAddressAsync(address, null, null, null, null, null);
-Console.WriteLine(balance);
+Console.WriteLine(balance.Result);
 
-var denom = await client.Bank.GetBankDenomOwnersByDenom("stake");
-Console.WriteLine(denom);
+var denom = await client.Bank.GetBankDenomOwnersByDenomAsync("stake");
+Console.WriteLine(denom.DenomOwners.FirstOrDefault());
 
-var balanceDenom = await client.Bank.GetBankBalanceByAddressByDenom(address,"stake",null,null,null,null,null);
-Console.WriteLine(balanceDenom);
+var balanceDenom = await client.Bank.GetBankBalanceByAddressByDenomAsync(address,"stake",null,null,null,null,null);
+Console.WriteLine(balanceDenom.Result);
+
+var denomsMetadata = await client.Bank.GetDenomsMetadataAsync(null, null, null, null, null);
+Console.WriteLine(denomsMetadata.Result);
+
+var bankparams = await client.Bank.GetBankParamsAsync();
+Console.WriteLine(bankparams.Result);
+
+var spendableBalance = await client.Bank.GetBankSpendableBalancesByAddressAsync(address, null, null, null, null, null);
+Console.WriteLine(spendableBalance.Result);
+
+var supply = await client.Bank.GetBankSupplyAsync(null, null, null, null, null);
+Console.WriteLine(supply.Result);
+
+var denomSingle = await client.Bank.GetBankDenomByDenomAsync("token");
+Console.WriteLine(denomSingle.Result);
+
+

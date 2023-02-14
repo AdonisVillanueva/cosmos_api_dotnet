@@ -15,14 +15,19 @@ namespace CosmosApi.Endpoints
         {
             _clientGetter = clientGetter;
         }
-        public async Task<ResponseWithHeight<BalanceRoot>> GetBankBalancesByAddressAsync(string address, string? paginationKey, int? paginationOffset, int? paginationLimit,
+        public async Task<ResponseWithHeight<Balance>> GetBankBalancesByAddressAsync(string address, string? paginationKey, int? paginationOffset, int? paginationLimit,
             bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default)
         {
-            ResponseWithHeight<BalanceRoot> rBank = new();
+            ResponseWithHeight<Balance> rBank = new();
 
             var clientResponse = await _clientGetter()
                                 .Request("cosmos/bank/v1beta1/", "balances", address)
-                                .GetAsync()
+                                .SetQueryParam("pagination.key", paginationKey)
+                                .SetQueryParam("pagination.offset", paginationKey)
+                                .SetQueryParam("pagination.limit", paginationLimit)
+                                .SetQueryParam("pagination.count_total", paginationCountTotal)
+                                .SetQueryParam("agination.reverse", paginationReverse)
+                                .GetAsync(cancellationToken)
                                 .WrapExceptions();
 
             if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out string blockHeight))
@@ -30,32 +35,38 @@ namespace CosmosApi.Endpoints
                 rBank.Height = (long)Convert.ToDouble(blockHeight);
             };
 
-            rBank.Result = await clientResponse.GetJsonAsync<BalanceRoot>()
+            rBank.Result = await clientResponse.GetJsonAsync<Balance>()
                                 .WrapExceptions();
             return rBank;
         }
-        public ResponseWithHeight<BalanceRoot> GetBankBalancesByAddress(string address, string? paginationKey, int? paginationOffset, int? paginationLimit,
+        public ResponseWithHeight<Balance> GetBankBalancesByAddress(string address, string? paginationKey, int? paginationOffset, int? paginationLimit,
             bool? paginationCountTotal, bool? paginationReverse)
         {
             return GetBankBalancesByAddressAsync(address, paginationKey, paginationOffset, paginationLimit, paginationCountTotal, paginationReverse)
                 .Sync();
         }
 
-        public async Task<DenomOwnersRoot> GetBankDenomOwnersByDenom(string denom, CancellationToken cancellationToken = default)
+        public async Task<DenomOwnersRoot> GetBankDenomOwnersByDenomAsync(string denom, CancellationToken cancellationToken = default)
         {
              return await _clientGetter()
                                 .Request("cosmos/bank/v1beta1/denom_owners", denom)
-                                .GetJsonAsync<DenomOwnersRoot>()
+                                .GetJsonAsync<DenomOwnersRoot>(cancellationToken)
                                 .WrapExceptions();
         }
 
-        public async Task<ResponseWithHeight<BalanceRoot>> GetBankBalanceByAddressByDenom(string address, string denom, string? paginationKey, int? paginationOffset, int? paginationLimit, bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default)
+        public async Task<ResponseWithHeight<Balance>> GetBankBalanceByAddressByDenomAsync(string address, string denom, string? paginationKey, 
+            int? paginationOffset, int? paginationLimit, bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default)
         {
-            ResponseWithHeight<BalanceRoot> rBank = new();
+            ResponseWithHeight<Balance> rBank = new();
             var clientResponse = await _clientGetter()
                                 .Request("cosmos/bank/v1beta1/balances/", address)
                                 .SetQueryParam("by_denom", denom)
-                                .GetAsync()
+                                .SetQueryParam("pagination.key", paginationKey)
+                                .SetQueryParam("pagination.offset", paginationKey)
+                                .SetQueryParam("pagination.limit", paginationLimit)
+                                .SetQueryParam("pagination.count_total", paginationCountTotal)
+                                .SetQueryParam("agination.reverse", paginationReverse)
+                                .GetAsync(cancellationToken)
                                 .WrapExceptions();
 
             if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out string blockHeight))
@@ -63,7 +74,113 @@ namespace CosmosApi.Endpoints
                 rBank.Height = (long)Convert.ToDouble(blockHeight);
             };
 
-            rBank.Result = await clientResponse.GetJsonAsync<BalanceRoot>()
+            rBank.Result = await clientResponse.GetJsonAsync<Balance>()
+                                .WrapExceptions();
+            return rBank;
+        }
+
+        public async Task<ResponseWithHeight<DenomsMetadata>> GetDenomsMetadataAsync(string? paginationKey, int? paginationOffset, int? paginationLimit, 
+            bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default)
+        {
+            ResponseWithHeight<DenomsMetadata> rBank = new();
+            var clientResponse = await _clientGetter()
+                                .Request("cosmos/bank/v1beta1/denoms_metadata")
+                                .SetQueryParam("pagination.key", paginationKey)
+                                .SetQueryParam("pagination.offset", paginationKey)
+                                .SetQueryParam("pagination.limit", paginationLimit)
+                                .SetQueryParam("pagination.count_total", paginationCountTotal)
+                                .SetQueryParam("agination.reverse", paginationReverse)
+                                .GetAsync(cancellationToken)
+                                .WrapExceptions();
+
+            if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out string blockHeight))
+            {
+                rBank.Height = (long)Convert.ToDouble(blockHeight);
+            };
+
+            rBank.Result = await clientResponse.GetJsonAsync<DenomsMetadata>()
+                                .WrapExceptions();
+            return rBank;
+        }
+
+        public async Task<ResponseWithHeight<BankParams>> GetBankParamsAsync(CancellationToken cancellationToken = default)
+        {
+            ResponseWithHeight<BankParams> rBank = new();
+
+            var clientResponse = await _clientGetter()
+                        .Request("/cosmos/bank/v1beta1/params")
+                        .GetAsync(cancellationToken)
+                        .WrapExceptions();
+
+            if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out string blockHeight))
+            {
+                rBank.Height = (long)Convert.ToDouble(blockHeight);
+            };
+
+            rBank.Result = await clientResponse.GetJsonAsync<BankParams>()
+                                .WrapExceptions();
+            return rBank;
+        }
+
+        public async Task<ResponseWithHeight<Balance>> GetBankSpendableBalancesByAddressAsync(string address, string? paginationKey, int? paginationOffset, int? paginationLimit, bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default)
+        {
+            ResponseWithHeight<Balance> rBank = new();
+            var clientResponse = await _clientGetter()
+                                .Request("cosmos/bank/v1beta1/spendable_balances/", address)
+                                .SetQueryParam("by_denom", address)
+                                .SetQueryParam("pagination.key", paginationKey)
+                                .SetQueryParam("pagination.offset", paginationKey)
+                                .SetQueryParam("pagination.limit", paginationLimit)
+                                .SetQueryParam("pagination.count_total", paginationCountTotal)
+                                .SetQueryParam("agination.reverse", paginationReverse)
+                                .GetAsync(cancellationToken)
+                                .WrapExceptions();
+
+            if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out string blockHeight))
+            {
+                rBank.Height = (long)Convert.ToDouble(blockHeight);
+            };
+
+            rBank.Result = await clientResponse.GetJsonAsync<Balance>()
+                                .WrapExceptions();
+            return rBank;
+        }
+
+        public async Task<ResponseWithHeight<Supply>> GetBankSupplyAsync(string? paginationKey, int? paginationOffset, int? paginationLimit, bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default)
+        {
+            ResponseWithHeight<Supply> rBank = new();
+
+            var clientResponse = await _clientGetter()
+                        .Request("/cosmos/bank/v1beta1/supply")
+                        .GetAsync(cancellationToken)
+                        .WrapExceptions();
+
+            if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out string blockHeight))
+            {
+                rBank.Height = (long)Convert.ToDouble(blockHeight);
+            };
+
+            rBank.Result = await clientResponse.GetJsonAsync<Supply>()
+                                .WrapExceptions();
+            return rBank;
+        }
+
+        public async Task<ResponseWithHeight<SupplySingle>> GetBankDenomByDenomAsync(string denom, CancellationToken cancellationToken = default)
+        {
+            ResponseWithHeight<SupplySingle> rBank = new();
+
+            var clientResponse = await _clientGetter()
+                        .Request("/cosmos/bank/v1beta1/supply/by_denom")
+                        .SetQueryParam("denom", denom)
+                        .GetAsync(cancellationToken)
+                        .WrapExceptions();
+
+            if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out string blockHeight))
+            {
+                rBank.Height = (long)Convert.ToDouble(blockHeight);
+            };
+
+            rBank.Result = await clientResponse.GetJsonAsync<SupplySingle>()
                                 .WrapExceptions();
             return rBank;
         }
