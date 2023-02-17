@@ -57,14 +57,14 @@ namespace CosmosApi.Endpoints
         /// <summary>
         /// Get all accounts information on blockchain.
         /// </summary>
-        Task<BlockchainAccountRoot> GetAuthAccountsAsync(string? paginationKey, int? paginationOffset, int? paginationLimit,
-            bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default);
+        Task<BlockchainAccountRoot> GetAuthAccountsAsync(string? paginationKey = default, int? paginationOffset = default, int? paginationLimit = default,
+            bool? paginationCountTotal = default, bool? paginationReverse = default, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Get all accounts information on blockchain.
         /// </summary>
-        BlockchainAccountRoot GetAuthAccounts(string? paginationKey, int? paginationOffset, int? paginationLimit,
-            bool? paginationCountTotal, bool? paginationReverse);
+        BlockchainAccountRoot GetAuthAccounts(string? paginationKey = default, int? paginationOffset = default, int? paginationLimit = default,
+            bool? paginationCountTotal = default, bool? paginationReverse = default);
 
         /// <summary>
         /// Get all module accounts information on blockchain.

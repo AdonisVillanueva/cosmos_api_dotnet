@@ -16,8 +16,8 @@ namespace CosmosApi.Endpoints
         {
             _clientGetter = clientGetter;
         }
-        public async Task<BlockchainAccountRoot> GetAuthAccountsAsync(string? paginationKey, int? paginationOffset, int? paginationLimit, 
-            bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default)
+        public async Task<BlockchainAccountRoot> GetAuthAccountsAsync(string? paginationKey = default, int? paginationOffset = default, int? paginationLimit = default, 
+            bool? paginationCountTotal = default, bool? paginationReverse = default, CancellationToken cancellationToken = default)
         {
             return await _clientGetter()
                 .Request("cosmos/auth/v1beta1/accounts")
@@ -29,8 +29,8 @@ namespace CosmosApi.Endpoints
                 .GetJsonAsync<BlockchainAccountRoot>(cancellationToken: cancellationToken)
                 .WrapExceptions();
         }
-        public BlockchainAccountRoot GetAuthAccounts(string? paginationKey, int? paginationOffset, int? paginationLimit,
-            bool? paginationCountTotal, bool? paginationReverse)
+        public BlockchainAccountRoot GetAuthAccounts(string? paginationKey = default, int? paginationOffset = default, int? paginationLimit = default,
+            bool? paginationCountTotal = default, bool? paginationReverse = default)
         {
             return GetAuthAccountsAsync(paginationKey, paginationOffset, paginationLimit,
             paginationCountTotal, paginationReverse)

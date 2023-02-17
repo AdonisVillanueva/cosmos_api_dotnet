@@ -82,4 +82,11 @@ Console.WriteLine(supply.Result);
 var denomSingle = await client.Bank.GetBankDenomByDenomAsync("token");
 Console.WriteLine(denomSingle.Result);
 
+var delagatorRewards = await client.Distribution.GetDelegatorRewardsAsync(address);
+Console.WriteLine(delagatorRewards);
+
+var communityPool = await client.Distribution.GetCommunityPoolAsync();
+Console.WriteLine(communityPool);
+
+
 

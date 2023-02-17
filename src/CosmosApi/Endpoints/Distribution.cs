@@ -17,12 +17,23 @@ namespace CosmosApi.Endpoints
             _clientGetter = clientGetter;
         }
 
-        public Task<ResponseWithHeight<DelegatorTotalRewards>> GetDelegatorRewardsAsync(string delegatorAddress, CancellationToken cancellationToken = default)
+        public async Task<ResponseWithHeight<DelegatorTotalRewards>> GetDelegatorRewardsAsync(string delegatorAddress, CancellationToken cancellationToken = default)
         {
-            return _clientGetter()
+            ResponseWithHeight<DelegatorTotalRewards> rDistribution = new();
+
+            var clientResponse = await _clientGetter()
                 .Request("cosmos/distribution/v1beta1", "delegators", delegatorAddress, "rewards")
-                .GetJsonAsync<ResponseWithHeight<DelegatorTotalRewards>>(cancellationToken)
+                .GetAsync(cancellationToken)
                 .WrapExceptions();
+
+            if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out string blockHeight))
+            {
+                rDistribution.Height = (long)Convert.ToDouble(blockHeight);
+            };
+
+            rDistribution.Result = await clientResponse.GetJsonAsync<DelegatorTotalRewards>()
+                                .WrapExceptions();
+            return rDistribution;            
         }
 
         public ResponseWithHeight<DelegatorTotalRewards> GetDelegatorRewards(string delegatorAddress)
@@ -66,12 +77,24 @@ namespace CosmosApi.Endpoints
                 .Sync();
         }
 
-        public Task<ResponseWithHeight<IList<DecCoin>>> GetDelegatorRewardsAsync(string delegatorAddress, string validatorAddress, CancellationToken cancellationToken = default)
+        public async Task<ResponseWithHeight<IList<DecCoin>>> GetDelegatorRewardsAsync(string delegatorAddress, string validatorAddress, CancellationToken cancellationToken = default)
         {
-            return _clientGetter()
+            ResponseWithHeight<IList<DecCoin>> rDistribution = new();
+
+            var clientResponse = await _clientGetter()
                 .Request("cosmos/distribution/v1beta1", "delegators", delegatorAddress, "rewards", validatorAddress)
-                .GetJsonAsync<ResponseWithHeight<IList<DecCoin>>>(cancellationToken)
+                .GetAsync(cancellationToken)
                 .WrapExceptions();
+
+            if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out string blockHeight))
+            {
+                rDistribution.Height = (long)Convert.ToDouble(blockHeight);
+            };
+
+            rDistribution.Result = await clientResponse.GetJsonAsync<IList<DecCoin>>()
+                                .WrapExceptions();
+            return rDistribution;
+
         }
 
         public ResponseWithHeight<IList<DecCoin>> GetDelegatorRewards(string delegatorAddress, string validatorAddress)
@@ -243,18 +266,30 @@ namespace CosmosApi.Endpoints
                 .Sync();
         }
 
-        public Task<ResponseWithHeight<IList<DecCoin>>> GetCommunityPoolAsync(long? height = default, CancellationToken cancellationToken = default)
+        public async Task<ResponseWithHeight<Pool>> GetCommunityPoolAsync(CancellationToken cancellationToken = default)
         {
-            return _clientGetter()
+            ResponseWithHeight<Pool> rDistribution = new();
+
+            var clientResponse = await _clientGetter()
                 .Request("cosmos/distribution/v1beta1", "community_pool")
-                .SetQueryParam("height", height)
-                .GetJsonAsync<ResponseWithHeight<IList<DecCoin>>>(cancellationToken)
+                .GetAsync(cancellationToken)
                 .WrapExceptions();
+
+            if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out string blockHeight))
+            {
+                rDistribution.Height = (long)Convert.ToDouble(blockHeight);
+            };
+
+            rDistribution.Result = await clientResponse
+                .GetJsonAsync<Pool>()
+                .WrapExceptions();
+
+            return rDistribution;
         }
 
-        public ResponseWithHeight<IList<DecCoin>> GetCommunityPool(long? height = default)
+        public ResponseWithHeight<Pool> GetCommunityPool()
         {
-            return GetCommunityPoolAsync(height)
+            return GetCommunityPoolAsync()
                 .Sync();
         }
 

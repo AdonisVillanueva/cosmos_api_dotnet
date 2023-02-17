@@ -15,8 +15,8 @@ namespace CosmosApi.Endpoints
         {
             _clientGetter = clientGetter;
         }
-        public async Task<ResponseWithHeight<Balance>> GetBankBalancesByAddressAsync(string address, string? paginationKey, int? paginationOffset, int? paginationLimit,
-            bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default)
+        public async Task<ResponseWithHeight<Balance>> GetBankBalancesByAddressAsync(string address, string? paginationKey = default, int? paginationOffset = default, int? paginationLimit = default,
+            bool? paginationCountTotal = default, bool? paginationReverse = default, CancellationToken cancellationToken = default)
         {
             ResponseWithHeight<Balance> rBank = new();
 
@@ -39,8 +39,8 @@ namespace CosmosApi.Endpoints
                                 .WrapExceptions();
             return rBank;
         }
-        public ResponseWithHeight<Balance> GetBankBalancesByAddress(string address, string? paginationKey, int? paginationOffset, int? paginationLimit,
-            bool? paginationCountTotal, bool? paginationReverse)
+        public ResponseWithHeight<Balance> GetBankBalancesByAddress(string address, string? paginationKey = default, int? paginationOffset = default, int? paginationLimit = default,
+            bool? paginationCountTotal = default, bool? paginationReverse = default)
         {
             return GetBankBalancesByAddressAsync(address, paginationKey, paginationOffset, paginationLimit, paginationCountTotal, paginationReverse)
                 .Sync();
@@ -54,8 +54,8 @@ namespace CosmosApi.Endpoints
                                 .WrapExceptions();
         }
 
-        public async Task<ResponseWithHeight<Balance>> GetBankBalanceByAddressByDenomAsync(string address, string denom, string? paginationKey, 
-            int? paginationOffset, int? paginationLimit, bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default)
+        public async Task<ResponseWithHeight<Balance>> GetBankBalanceByAddressByDenomAsync(string address, string denom, string? paginationKey = default, 
+            int? paginationOffset = default, int? paginationLimit = default, bool? paginationCountTotal = default, bool? paginationReverse = default, CancellationToken cancellationToken = default)
         {
             ResponseWithHeight<Balance> rBank = new();
             var clientResponse = await _clientGetter()
@@ -79,8 +79,8 @@ namespace CosmosApi.Endpoints
             return rBank;
         }
 
-        public async Task<ResponseWithHeight<DenomsMetadata>> GetDenomsMetadataAsync(string? paginationKey, int? paginationOffset, int? paginationLimit, 
-            bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default)
+        public async Task<ResponseWithHeight<DenomsMetadata>> GetDenomsMetadataAsync(string? paginationKey = default, int? paginationOffset = default, int? paginationLimit = default, 
+            bool? paginationCountTotal = default, bool? paginationReverse = default, CancellationToken cancellationToken = default)
         {
             ResponseWithHeight<DenomsMetadata> rBank = new();
             var clientResponse = await _clientGetter()
@@ -122,7 +122,7 @@ namespace CosmosApi.Endpoints
             return rBank;
         }
 
-        public async Task<ResponseWithHeight<Balance>> GetBankSpendableBalancesByAddressAsync(string address, string? paginationKey, int? paginationOffset, int? paginationLimit, bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default)
+        public async Task<ResponseWithHeight<Balance>> GetBankSpendableBalancesByAddressAsync(string address, string? paginationKey = default, int? paginationOffset = default, int? paginationLimit = default, bool? paginationCountTotal = default, bool? paginationReverse = default, CancellationToken cancellationToken = default)
         {
             ResponseWithHeight<Balance> rBank = new();
             var clientResponse = await _clientGetter()
@@ -146,7 +146,7 @@ namespace CosmosApi.Endpoints
             return rBank;
         }
 
-        public async Task<ResponseWithHeight<Supply>> GetBankSupplyAsync(string? paginationKey, int? paginationOffset, int? paginationLimit, bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default)
+        public async Task<ResponseWithHeight<Supply>> GetBankSupplyAsync(string? paginationKey = default, int? paginationOffset = default, int? paginationLimit = default, bool? paginationCountTotal = default, bool? paginationReverse = default, CancellationToken cancellationToken = default)
         {
             ResponseWithHeight<Supply> rBank = new();
 

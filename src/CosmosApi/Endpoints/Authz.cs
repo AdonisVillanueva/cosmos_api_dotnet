@@ -16,8 +16,8 @@ namespace CosmosApi.Endpoints
         {
             _clientGetter = clientGetter;
         }
-        public async Task<ResponseWithHeight<GrantRoot>> GetAuthzGrantsAsync(string granter, string grantee, string? messageTypeUrl,string? paginationKey, int? paginationOffset, int? paginationLimit, 
-            bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default)
+        public async Task<ResponseWithHeight<GrantRoot>> GetAuthzGrantsAsync(string granter, string grantee, string? messageTypeUrl,string? paginationKey = default, int? paginationOffset = default, int? paginationLimit = default, 
+            bool? paginationCountTotal = default, bool? paginationReverse = default, CancellationToken cancellationToken = default)
         {
             ResponseWithHeight<GrantRoot> rGrant = new();
 
@@ -43,16 +43,16 @@ namespace CosmosApi.Endpoints
                                 .WrapExceptions();
             return rGrant;
         }
-        public ResponseWithHeight<GrantRoot> GetAuthzGrants(string granter, string grantee, string? messageTypeUrl, string? paginationKey, int? paginationOffset, int? paginationLimit,
-            bool? paginationCountTotal, bool? paginationReverse)
+        public ResponseWithHeight<GrantRoot> GetAuthzGrants(string granter, string grantee, string? messageTypeUrl, string? paginationKey = default, int? paginationOffset = default, int? paginationLimit = default,
+            bool? paginationCountTotal = default, bool? paginationReverse = default)
         {
             return GetAuthzGrantsAsync(granter, grantee, messageTypeUrl, paginationKey, paginationOffset, paginationLimit,
             paginationCountTotal, paginationReverse)
             .Sync();
         }
 
-        public async Task<GrantRoot> GetAuthzGrantByGranteeAsync(string grantee, string? paginationKey, int? paginationOffset, int? paginationLimit,
-            bool? paginationCountTotal, bool? paginationReverse, CancellationToken cancellationToken = default)
+        public async Task<GrantRoot> GetAuthzGrantByGranteeAsync(string grantee, string? paginationKey = default, int? paginationOffset = default, int? paginationLimit = default,
+            bool? paginationCountTotal = default, bool? paginationReverse = default, CancellationToken cancellationToken = default)
         {
  
             return await _clientGetter()
@@ -66,16 +66,16 @@ namespace CosmosApi.Endpoints
                         .WrapExceptions();
         }
 
-        public GrantRoot GetAuthzGrantByGrantee(string grantee, string? paginationKey, int? paginationOffset, int? paginationLimit,
-            bool? paginationCountTotal, bool? paginationReverse)
+        public GrantRoot GetAuthzGrantByGrantee(string grantee, string? paginationKey = default, int? paginationOffset = default, int? paginationLimit = default,
+            bool? paginationCountTotal = default, bool? paginationReverse = default)
         {
             return GetAuthzGrantByGranteeAsync(grantee, paginationKey, paginationOffset, paginationLimit,
             paginationCountTotal, paginationReverse)
                 .Sync();
         }
 
-        public async Task<GrantRoot> GetAuthzGrantByGranterAsync(string granter, string? paginationKey, int? paginationOffset, int? paginationLimit, bool? paginationCountTotal, 
-            bool? paginationReverse, CancellationToken cancellationToken = default)
+        public async Task<GrantRoot> GetAuthzGrantByGranterAsync(string granter, string? paginationKey = default, int? paginationOffset = default, int? paginationLimit = default, bool? paginationCountTotal = default, 
+            bool? paginationReverse = default, CancellationToken cancellationToken = default)
         {
 
             return await _clientGetter()
@@ -89,8 +89,8 @@ namespace CosmosApi.Endpoints
                         .WrapExceptions();
         }
 
-        public GrantRoot GetAuthzGrantByGranter(string grantee, string? paginationKey, int? paginationOffset, int? paginationLimit,
-    bool? paginationCountTotal, bool? paginationReverse)
+        public GrantRoot GetAuthzGrantByGranter(string grantee, string? paginationKey = default, int? paginationOffset = default, int? paginationLimit = default,
+    bool? paginationCountTotal = default, bool? paginationReverse = default)
         {
             return GetAuthzGrantByGranterAsync(grantee, paginationKey, paginationOffset, paginationLimit,
             paginationCountTotal, paginationReverse).Sync();

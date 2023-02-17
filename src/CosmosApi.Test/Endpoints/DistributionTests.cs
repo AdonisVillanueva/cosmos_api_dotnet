@@ -266,8 +266,8 @@ namespace CosmosApi.Test.Endpoints
             OutputHelper.WriteLine("Deserialized Community Pool:");
             Dump(communityPool);
 
-            Assert.NotEmpty(communityPool.Result);
-            Assert.All(communityPool.Result, CoinNotEmpty);
+            Assert.NotEmpty(communityPool.Result.Pools);
+            Assert.All(communityPool.Result.Pools, CoinNotEmpty);
         }
 
         [Fact]
