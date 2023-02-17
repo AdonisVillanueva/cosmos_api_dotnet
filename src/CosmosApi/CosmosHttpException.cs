@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Flurl.Http;
+using System;
 using System.Net.Http;
-using Flurl.Http;
 
 namespace CosmosApi
 {
@@ -19,17 +19,17 @@ namespace CosmosApi
 
         /// <summary>DateTime the moment a response was received.</summary>
         public DateTime? EndedUtc { get; }
-        
+
         /// <summary>Called url.</summary>
         public string Url { get; }
 
         internal CosmosHttpException(FlurlHttpException innerException) : base(innerException.Message, innerException)
         {
-            Request = innerException.Call.Request;
-            Response = innerException.Call.Response;
+            Request = (HttpRequestMessage)innerException.Call.Request;
+            Response = (HttpResponseMessage?)innerException.Call.Response;
             EndedUtc = innerException.Call.EndedUtc;
             StartedUtc = innerException.Call.StartedUtc;
-            Url = innerException.Call.FlurlRequest.Url;
+            Url = innerException.Call.Request.Url;
         }
     }
 }

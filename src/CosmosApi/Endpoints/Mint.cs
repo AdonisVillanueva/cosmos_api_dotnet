@@ -1,10 +1,10 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using CosmosApi.Extensions;
+﻿using CosmosApi.Extensions;
 using CosmosApi.Models;
 using ExtendedNumerics;
 using Flurl.Http;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CosmosApi.Endpoints
 {
@@ -16,11 +16,11 @@ namespace CosmosApi.Endpoints
         {
             _clientGetter = clientGetter;
         }
-        
+
         public Task<ResponseWithHeight<MintParams>> GetParamsAsync(long? height = default, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("minting", "parameters")
+                .Request("cosmos/mint/v1beta1", "parameters")
                 .GetJsonAsync<ResponseWithHeight<MintParams>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -34,7 +34,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<BigDecimal>> GetInflationAsync(CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("minting", "inflation")
+                .Request("cosmos/mint/v1beta1", "inflation")
                 .GetJsonAsync<ResponseWithHeight<BigDecimal>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -48,7 +48,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<BigDecimal>> GetAnnualProvisionsAsync(CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("minting", "annual-provisions")
+                .Request("cosmos/mint/v1beta1", "annual-provisions")
                 .GetJsonAsync<ResponseWithHeight<BigDecimal>>(cancellationToken)
                 .WrapExceptions();
         }

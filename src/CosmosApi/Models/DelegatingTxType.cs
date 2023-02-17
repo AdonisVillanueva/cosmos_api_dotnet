@@ -10,6 +10,6 @@ namespace CosmosApi.Models
         Unbond = 2,
         [EnumMember(Value = "redelegate")]
         Redelegate = 3,
-        
+
     }
 }

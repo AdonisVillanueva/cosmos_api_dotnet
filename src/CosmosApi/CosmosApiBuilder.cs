@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Immutable;
-using CosmosApi.Models;
+﻿using CosmosApi.Models;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Immutable;
 
 namespace CosmosApi
 {
@@ -25,7 +25,7 @@ namespace CosmosApi
             {
                 configurator(settings);
             }
-            
+
             return new CosmosApiClient(settings);
         }
 
@@ -78,7 +78,7 @@ namespace CosmosApi
             return Configure(configuration =>
             {
                 configuration.TxConverter.AddType<StdTx>("cosmos-sdk/StdTx");
-                
+
                 configuration.MsgConverter.AddType<MsgMultiSend>("cosmos-sdk/MsgMultiSend");
                 configuration.MsgConverter.AddType<MsgSend>("cosmos-sdk/MsgSend");
                 configuration.MsgConverter.AddType<MsgDelegate>("cosmos-sdk/MsgDelegate");
@@ -95,7 +95,8 @@ namespace CosmosApi
                 configuration.MsgConverter.AddType<MsgCreateValidator>("cosmos-sdk/MsgCreateValidator");
 
                 configuration.AccountConverter.AddType<BaseAccount>("cosmos-sdk/Account");
-                
+                configuration.AccountConverter.AddType<Grant>("cosmos-sdk/Account");
+
                 configuration.ProposalContentConverter.AddType<TextProposal>("cosmos-sdk/TextProposal");
                 configuration.ProposalContentConverter.AddType<CommunityPoolSpendProposal>("cosmos-sdk/CommunityPoolSpendProposal");
                 configuration.ProposalContentConverter.AddType<SoftwareUpgradeProposal>("cosmos-sdk/SoftwareUpgradeProposal");

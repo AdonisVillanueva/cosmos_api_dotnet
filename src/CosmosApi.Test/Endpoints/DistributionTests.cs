@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using CosmosApi.Models;
+using System.Linq;
 using System.Threading.Tasks;
-using CosmosApi.Models;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -22,7 +22,7 @@ namespace CosmosApi.Test.Endpoints
                 .GetDelegatorRewardsAsync(Configuration.LocalDelegator1Address);
             OutputHelper.WriteLine("Deserizalized Rewards:");
             Dump(rewards);
-            
+
             // Assert.NotEmpty(rewards.Result.Total);
             // Assert.All(rewards.Result.Total, c => Assert.NotEmpty(c.Denom));
             // Assert.All(rewards.Result.Total, c => Assert.True(c.Amount > 0));
@@ -45,7 +45,7 @@ namespace CosmosApi.Test.Endpoints
                 .PostWithdrawRewardsSimulationAsync(Configuration.LocalDelegator1Address, new WithdrawRewardsRequest(baseRequest));
             OutputHelper.WriteLine("Deserialized Gas Estimation:");
             Dump(gasEstimation);
-            
+
             Assert.True(gasEstimation.GasEstimate > 0);
         }
 
@@ -62,7 +62,7 @@ namespace CosmosApi.Test.Endpoints
             Dump(stdTx);
 
             CheckStdTx(baseRequest, stdTx);
-            var withdrawMsg = stdTx.Msg.OfType<MsgWithdrawDelegatorReward>(); 
+            var withdrawMsg = stdTx.Msg.OfType<MsgWithdrawDelegatorReward>();
             Assert.All(withdrawMsg, w =>
             {
                 Assert.Equal(Configuration.LocalAccount1Address, w.DelegatorAddress);
@@ -97,10 +97,10 @@ namespace CosmosApi.Test.Endpoints
                 .PostWithdrawRewardsSimulationAsync(Configuration.LocalDelegator1Address, Configuration.LocalValidator1Address, new WithdrawRewardsRequest(baseRequest));
             OutputHelper.WriteLine("Deserialized Gas Estimation:");
             Dump(gasEstimation);
-            
+
             Assert.True(gasEstimation.GasEstimate > 0);
         }
-        
+
         [Fact]
         public async Task PostWithdrawRewardsFromValidatorNotEmpty()
         {
@@ -114,7 +114,7 @@ namespace CosmosApi.Test.Endpoints
             Dump(stdTx);
 
             CheckStdTx(baseRequest, stdTx);
-            var withdrawMsg = stdTx.Msg.OfType<MsgWithdrawDelegatorReward>().First(); 
+            var withdrawMsg = stdTx.Msg.OfType<MsgWithdrawDelegatorReward>().First();
             Assert.Equal(Configuration.LocalDelegator1Address, withdrawMsg.DelegatorAddress);
             Assert.Equal(Configuration.LocalValidator1Address, withdrawMsg.ValidatorAddress);
         }
@@ -129,7 +129,7 @@ namespace CosmosApi.Test.Endpoints
                 .GetWithdrawAddressAsync(Configuration.LocalDelegator1Address);
             OutputHelper.WriteLine("Deserialized Address:");
             Dump(address);
-            
+
             Assert.NotEmpty(address.Result);
         }
 
@@ -145,7 +145,7 @@ namespace CosmosApi.Test.Endpoints
                 .PostWithdrawAddressSimulationAsync(Configuration.LocalDelegator1Address, request);
             OutputHelper.WriteLine("Deserialized Gas Estimation:");
             Dump(gasEstimation);
-            
+
             Assert.True(gasEstimation.GasEstimate > 0);
         }
 
@@ -161,13 +161,13 @@ namespace CosmosApi.Test.Endpoints
                 .PostWithdrawAddressAsync(Configuration.LocalDelegator1Address, request);
             OutputHelper.WriteLine("Deserialized StdTx:");
             Dump(stdTx);
-            
+
             CheckStdTx(baseRequest, stdTx);
             var msg = stdTx
                 .Msg
                 .OfType<MsgSetWithdrawAddress>()
                 .First();
-            
+
             Assert.Equal(Configuration.LocalDelegator1Address, msg.DelegatorAddress);
             Assert.Equal(Configuration.LocalAccount1Address, msg.WithdrawAddress);
         }
@@ -199,7 +199,7 @@ namespace CosmosApi.Test.Endpoints
                 .GetValidatorOutstandingRewardsAsync(Configuration.LocalValidator1Address);
             OutputHelper.WriteLine("Deserialized Rewards");
             Dump(rewards);
-            
+
             Assert.NotEmpty(rewards.Result);
             Assert.All(rewards.Result, CoinNotEmpty);
         }
@@ -214,11 +214,11 @@ namespace CosmosApi.Test.Endpoints
                 .GetValidatorRewardsAsync(Configuration.LocalValidator1Address);
             OutputHelper.WriteLine("Deserialized Rewards");
             Dump(rewards);
-            
+
             // Assert.NotEmpty(rewards.Result);
             // Assert.All(rewards.Result, CoinNotEmpty);
         }
-        
+
         [Fact]
         public async Task PostValidatorWithdrawRewardsSimulation()
         {
@@ -230,7 +230,7 @@ namespace CosmosApi.Test.Endpoints
                 .PostValidatorWithdrawRewardsSimulationAsync(Configuration.LocalValidator1Address, new WithdrawRewardsRequest(baseRequest));
             OutputHelper.WriteLine("Deserialized Gas Estimation:");
             Dump(gasEstimation);
-            
+
             Assert.True(gasEstimation.GasEstimate > 0);
         }
 
@@ -247,7 +247,7 @@ namespace CosmosApi.Test.Endpoints
             Dump(stdTx);
 
             CheckStdTx(baseRequest, stdTx);
-            var withdrawMsg = stdTx.Msg.OfType<MsgWithdrawDelegatorReward>(); 
+            var withdrawMsg = stdTx.Msg.OfType<MsgWithdrawDelegatorReward>();
             Assert.All(withdrawMsg, w =>
             {
                 Assert.NotEmpty(w.DelegatorAddress);
@@ -265,9 +265,9 @@ namespace CosmosApi.Test.Endpoints
                 .GetCommunityPoolAsync();
             OutputHelper.WriteLine("Deserialized Community Pool:");
             Dump(communityPool);
-            
-            Assert.NotEmpty(communityPool.Result);
-            Assert.All(communityPool.Result, CoinNotEmpty);
+
+            Assert.NotEmpty(communityPool.Result.Pools);
+            Assert.All(communityPool.Result.Pools, CoinNotEmpty);
         }
 
         [Fact]
@@ -280,7 +280,7 @@ namespace CosmosApi.Test.Endpoints
                 .GetParamsAsync();
             OutputHelper.WriteLine("Deserialized Distribution Params:");
             Dump(@params);
-            
+
             Assert.True(@params.Result.WithdrawAddrEnabled);
             Assert.True(@params.Result.CommunityTax > 0);
             Assert.True(@params.Result.BaseProposerReward > 0);

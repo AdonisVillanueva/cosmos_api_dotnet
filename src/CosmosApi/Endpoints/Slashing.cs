@@ -1,10 +1,10 @@
-﻿using System;
+﻿using CosmosApi.Extensions;
+using CosmosApi.Models;
+using Flurl.Http;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CosmosApi.Extensions;
-using CosmosApi.Models;
-using Flurl.Http;
 
 namespace CosmosApi.Endpoints
 {
@@ -20,7 +20,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<ValidatorSigningInfo>> GetSigningInfoAsync(string publicKey, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("slashing", "validators", publicKey, "signing_info")
+                .Request("cosmos/slashing/v1beta1", "validators", publicKey, "signing_info")
                 .GetJsonAsync<ResponseWithHeight<ValidatorSigningInfo>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -34,7 +34,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<IList<ValidatorSigningInfo>>> GetSigningInfosAsync(int? page = default, int? limit = default, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("slashing", "signing_infos")
+                .Request("cosmos/slashing/v1beta1", "signing_infos")
                 .SetQueryParam("page", page)
                 .SetQueryParam("limit", limit)
                 .GetJsonAsync<ResponseWithHeight<IList<ValidatorSigningInfo>>>(cancellationToken)
@@ -52,7 +52,7 @@ namespace CosmosApi.Endpoints
             var baseReq = new BaseReqWithSimulate(request.BaseReq, true);
             request = new UnjailRequest(baseReq);
             return _clientGetter()
-                .Request("slashing", "validators", validatorAddress, "unjail")
+                .Request("cosmos/slashing/v1beta1", "validators", validatorAddress, "unjail")
                 .PostJsonAsync(request, cancellationToken)
                 .ReceiveJson<GasEstimateResponse>()
                 .WrapExceptions();
@@ -69,7 +69,7 @@ namespace CosmosApi.Endpoints
             var baseReq = new BaseReqWithSimulate(request.BaseReq, false);
             request = new UnjailRequest(baseReq);
             return _clientGetter()
-                .Request("slashing", "validators", validatorAddress, "unjail")
+                .Request("cosmos/slashing/v1beta1", "validators", validatorAddress, "unjail")
                 .PostJsonAsync(request, cancellationToken)
                 .ReceiveJson<StdTx>()
                 .WrapExceptions();
@@ -84,7 +84,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<SlashingParams>> GetParametersAsync(CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("slashing", "parameters")
+                .Request("cosmos/slashing/v1beta1", "parameters")
                 .GetJsonAsync<ResponseWithHeight<SlashingParams>>(cancellationToken)
                 .WrapExceptions();
         }

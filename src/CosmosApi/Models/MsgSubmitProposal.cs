@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace CosmosApi.Models
 {
@@ -7,7 +7,7 @@ namespace CosmosApi.Models
     {
         [JsonProperty("content")]
         public IProposalContent Content { get; set; } = null!;
-        
+
         /// <summary>
         /// Initial deposit paid by sender. Must be strictly positive.
         /// </summary>

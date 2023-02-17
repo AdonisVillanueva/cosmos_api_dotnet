@@ -1,18 +1,20 @@
-﻿using System.Collections.Generic;
-using CosmosApi.Extensions;
-using CosmosApi.Models;
+﻿using CosmosApi.Models;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace NameserviceApi.Models
 {
     public class Account : IAccount
     {
+        [JsonProperty("type")]
+        public string Type { get; set; } = null!;
+
         [JsonProperty("address")]
         public string Address { get; set; } = null!;
-        [JsonProperty("coins")]
-        public IList<Coin> Coins { get; set; } = null!;
-        [JsonProperty("public_key")]
+
+        [JsonProperty("pub_key")]
         public string PublicKey { get; set; } = null!;
+
         [JsonProperty("account_number")]
         public ulong AccountNumber { get; set; }
         [JsonProperty("sequence")]
@@ -22,10 +24,10 @@ namespace NameserviceApi.Models
         {
         }
 
-        public Account(string address, IList<Coin> coins, string publicKey, ulong accountNumber, ulong sequence)
-        {
+        public Account(string address, string type, string publicKey, ulong accountNumber, ulong sequence)
+        {            
+            Type = type;
             Address = address;
-            Coins = coins;
             PublicKey = publicKey;
             AccountNumber = accountNumber;
             Sequence = sequence;
@@ -36,7 +38,7 @@ namespace NameserviceApi.Models
             return new PublicKey()
             {
                 Type = null,
-                Value = PublicKey
+                Key = PublicKey
             };
         }
 

@@ -1,6 +1,6 @@
+using CosmosApi.Models;
 using System.Threading;
 using System.Threading.Tasks;
-using CosmosApi.Models;
 
 namespace CosmosApi.Endpoints
 {
@@ -18,7 +18,7 @@ namespace CosmosApi.Endpoints
         /// <param name='cancellationToken'>
         /// The cancellation token.
         /// </param>
-        Task<NodeStatus> GetNodeInfoAsync(CancellationToken cancellationToken = default(CancellationToken));
+        Task<NodeStatus> GetNodeInfoAsync(CancellationToken cancellationToken = default);
         /// <summary>
         /// The properties of the connected node
         /// </summary>

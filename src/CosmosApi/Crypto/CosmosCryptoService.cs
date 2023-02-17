@@ -1,13 +1,13 @@
-﻿using System;
+﻿using CosmosApi.Extensions;
+using CosmosApi.Models;
+using NaCl;
+using NBitcoin.Secp256k1;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using CosmosApi.Extensions;
-using CosmosApi.Models;
-using NaCl;
-using NBitcoin.Secp256k1;
 
 namespace CosmosApi.Crypto
 {
@@ -36,18 +36,18 @@ namespace CosmosApi.Crypto
 
         public BinaryPublicKey ParsePublicKey(PublicKey publicKey)
         {
-            return new BinaryPublicKey(publicKey.Type, Convert.FromBase64String(publicKey.Value));
+            return new BinaryPublicKey(publicKey.Type, Convert.FromBase64String(publicKey.Key));
         }
 
 
         public byte[] Sign(byte[] bytesToSign, BinaryPrivateKey key)
         {
-            
+
             if (IsSecp256k1(key.Type))
             {
                 return SignSecp256k1(bytesToSign, key.Value);
             }
-            
+
             throw new NotSupportedException($"Unknown key type {key.Type}");
         }
 
@@ -63,12 +63,12 @@ namespace CosmosApi.Crypto
 
         public PublicKey? MakePublicKey(PublicKey? publicKey, BinaryPrivateKey privateKey)
         {
-            if (publicKey?.Type != null && publicKey?.Value != null)
+            if (publicKey?.Type != null && publicKey?.Key != null)
             {
                 return publicKey;
             }
-            
-            if (publicKey?.Value != null)
+
+            if (publicKey?.Key != null)
             {
                 if (IsSecp256k1(publicKey.Type))
                 {
@@ -76,10 +76,10 @@ namespace CosmosApi.Crypto
                     if (parsedKey != null)
                     {
                         return parsedKey;
-                    } 
+                    }
                 }
             }
-            
+
             if (IsSecp256k1(privateKey.Type))
             {
                 return MakeSecp256k1PublicKey(privateKey.Value);
@@ -88,15 +88,15 @@ namespace CosmosApi.Crypto
             return null;
         }
 
-        private PublicKey? ParseSecp256k1PublicKey(PublicKey publicKey)
+        private static PublicKey? ParseSecp256k1PublicKey(PublicKey publicKey)
         {
             byte[]? keyBytes = null;
             //todo: try to parse bech32 from publicKey.Value
-            if(keyBytes == null)
+            if (keyBytes == null)
             {
                 try
                 {
-                    keyBytes = ByteArrayExtensions.ParseBase64(publicKey.Value);
+                    keyBytes = ByteArrayExtensions.ParseBase64(publicKey.Key);
                 }
                 catch
                 {
@@ -104,12 +104,12 @@ namespace CosmosApi.Crypto
                 }
 
             }
-            
+
             if (keyBytes == null)
             {
                 try
                 {
-                    keyBytes = ByteArrayExtensions.ParseBase64(publicKey.Value);
+                    keyBytes = ByteArrayExtensions.ParseBase64(publicKey.Key);
                 }
                 catch
                 {
@@ -122,7 +122,7 @@ namespace CosmosApi.Crypto
                 return null;
             }
 
-            if(Context.Instance.TryCreatePubKey(keyBytes, out var compressed, out var ecPublicKey))
+            if (Context.Instance.TryCreatePubKey(keyBytes, out _, out var ecPublicKey))
             {
                 var compressedBytes = ecPublicKey!.ToBytes(true);
                 return new PublicKey(Secp256k1PublicKeyType, compressedBytes.ToBase64String());
@@ -130,7 +130,7 @@ namespace CosmosApi.Crypto
             return null;
         }
 
-        private PublicKey? MakeSecp256k1PublicKey(byte[] privateKeyValue)
+        private static PublicKey? MakeSecp256k1PublicKey(byte[] privateKeyValue)
         {
             using var ecKey = Context.Instance.CreateECPrivKey(privateKeyValue);
             var publicKey = ecKey.CreatePubKey()
@@ -143,7 +143,7 @@ namespace CosmosApi.Crypto
             return type == null || type.Contains(Secp256k1, StringComparison.OrdinalIgnoreCase);
         }
 
-        private bool IsValidSecp256k1(byte[] message, byte[] sign, byte[] keyValue)
+        private static bool IsValidSecp256k1(byte[] message, byte[] sign, byte[] keyValue)
         {
             if (!Context.Instance.TryCreatePubKey(keyValue, out var key))
             {
@@ -155,13 +155,13 @@ namespace CosmosApi.Crypto
                 throw new ArgumentException($"Sign parameter is not a valid compact {Secp256k1} signature.");
             }
 
-            using var sha = new SHA256Managed();
+            using SHA512 sha = SHA512.Create();
             return key!.SigVerify(secpEcdsaSignature!, sha.ComputeHash(message));
         }
 
-        internal byte[] SignSecp256k1(byte[] bytesToSign, byte[] key)
+        internal static byte[] SignSecp256k1(byte[] bytesToSign, byte[] key)
         {
-            using var sha = new SHA256Managed();
+            using SHA512 sha = SHA512.Create();
             var hashed = sha.ComputeHash(bytesToSign);
             using var ecKey = Context.Instance.CreateECPrivKey(key);
             var signature = ecKey.SignECDSARFC6979(hashed);
@@ -175,7 +175,7 @@ namespace CosmosApi.Crypto
             var secretbox = new NaCl.XSalsa20Poly1305(key);
             var decrypted = new byte[encryptedBytes.Length - XSalsa20Poly1305.NonceLength - XSalsa20Poly1305.TagLength];
             var encryptedSpan = encryptedBytes.AsSpan();
-            if(!secretbox.TryDecrypt(decrypted, encryptedSpan[XSalsa20Poly1305.NonceLength..], encryptedSpan[..XSalsa20Poly1305.NonceLength]))
+            if (!secretbox.TryDecrypt(decrypted, encryptedSpan[XSalsa20Poly1305.NonceLength..], encryptedSpan[..XSalsa20Poly1305.NonceLength]))
             {
                 throw new Exception("Failed to decrypt.");
             }
@@ -185,12 +185,11 @@ namespace CosmosApi.Crypto
 
         private static byte[] MakeKeyEncryptionKey(byte[] salt, string passphrase)
         {
-            var bcrypted = 
+            var bcrypted =
                 Org.BouncyCastle.Crypto.Generators.OpenBsdBCrypt.Generate("2a", passphrase.ToCharArray(), salt, 12);
 
-            using var sha = new SHA256Managed();
-            var hashed = sha.ComputeHash( Encoding.UTF8.GetBytes(bcrypted));
-
+            using SHA512 sha = SHA512.Create();
+            var hashed = sha.ComputeHash(Encoding.UTF8.GetBytes(bcrypted));
             return hashed;
         }
 
@@ -199,7 +198,7 @@ namespace CosmosApi.Crypto
             var bytes = Encoding.UTF8.GetBytes(input);
             using var inputStream = new MemoryStream(bytes);
             using var armor = new Org.BouncyCastle.Bcpg.ArmoredInputStream(inputStream);
-            
+
             var headers = armor.GetArmorHeaders()
                 .Select(h => h.Split(": ", StringSplitOptions.RemoveEmptyEntries))
                 .ToDictionary(s => s[0], s => s[1], (IEqualityComparer<string>)StringComparer.OrdinalIgnoreCase);

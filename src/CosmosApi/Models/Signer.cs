@@ -9,7 +9,7 @@
         public Signer()
         {
         }
-        
+
         public Signer(IAccount account, string encodedPrivateKey, string passphrase)
         {
             Account = account;

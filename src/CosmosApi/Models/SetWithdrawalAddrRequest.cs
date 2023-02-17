@@ -6,7 +6,7 @@ namespace CosmosApi.Models
     {
         [JsonProperty("base_req")]
         public BaseReq BaseReq { get; set; } = null!;
-        
+
         [JsonProperty("withdraw_address")]
         public string WithdrawAddress { get; set; } = null!;
 

@@ -1,6 +1,5 @@
-using System.Collections.Generic;
-using CosmosApi.Serialization;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace CosmosApi.Models
 {

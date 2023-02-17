@@ -1,7 +1,7 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using CosmosApi.Models;
+﻿using CosmosApi.Models;
 using NameserviceApi.Models;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NameserviceApi
 {

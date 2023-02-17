@@ -1,7 +1,7 @@
-using System;
-using System.Collections.Generic;
 using CosmosApi.Serialization;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace CosmosApi.Models
 {
@@ -16,22 +16,22 @@ namespace CosmosApi.Models
 
         [JsonProperty("proposal_status")]
         public ProposalStatus Status { get; set; }
-        
+
         [JsonProperty("final_tally_result")]
         public TallyResult FinalTallyResult { get; set; } = null!;
 
         [JsonProperty("submit_time")]
         public DateTimeOffset SubmitTime { get; set; }
-        
+
         [JsonProperty("deposit_end_time")]
         public DateTimeOffset DepositEndTime { get; set; }
-        
+
         [JsonProperty("total_deposit")]
         public IList<Coin> TotalDeposit { get; set; } = null!;
 
         [JsonProperty("voting_start_time")]
         public DateTimeOffset VotingStartTime { get; set; }
-        
+
         [JsonProperty("voting_end_time")]
         public DateTimeOffset VotingEndTime { get; set; }
 

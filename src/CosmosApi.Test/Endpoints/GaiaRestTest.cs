@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using CosmosApi.Test.TestData;
+﻿using CosmosApi.Test.TestData;
 using ExpectedObjects;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -11,7 +11,7 @@ namespace CosmosApi.Test.Endpoints
         public GaiaRestTest(ITestOutputHelper outputHelper) : base(outputHelper)
         {
         }
-        
+
         [Fact]
         public async Task AsyncGetNodeInfoCompletes()
         {
@@ -20,7 +20,7 @@ namespace CosmosApi.Test.Endpoints
             var nodeInfo = await client.GaiaRest.GetNodeInfoAsync();
             OutputHelper.WriteLine("Deserialized into");
             Dump(nodeInfo);
-            
+
             NodeInfoData
                 .NodeStatus
                 .ToExpectedObject()

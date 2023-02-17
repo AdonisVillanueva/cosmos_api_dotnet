@@ -1,5 +1,5 @@
-﻿using System.Numerics;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Numerics;
 
 namespace CosmosApi.Models
 {

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using JsonSubTypes;
+﻿using JsonSubTypes;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace CosmosApi.Serialization
 {
@@ -22,7 +22,7 @@ namespace CosmosApi.Serialization
         /// Base type used in dotnet model.
         /// </summary>
         public Type BaseType { get; }
-        
+
         /// <summary>
         /// List of possible subtypes and their corresponding discriminator values.
         /// </summary>
@@ -32,7 +32,7 @@ namespace CosmosApi.Serialization
         /// Key of discriminator json property.
         /// </summary>
         public string DiscriminatorName { get; }
-        
+
         public JsonConverter CreateConverter()
         {
             var builder = JsonSubtypesConverterBuilder

@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using CosmosApi.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using System;
+using System.Collections.Generic;
 
 namespace CosmosApi.Serialization
 {
-    public class TypeValueConverter<TBaseType> : JsonConverter<TBaseType> where TBaseType: class
+    public class TypeValueConverter<TBaseType> : JsonConverter<TBaseType> where TBaseType : class
     {
         private readonly bool _dontWriteTypeValue = false;
         private string _registerTypeHint = "";
-        internal readonly Dictionary<Type, string> TypeToJsonName = new Dictionary<Type, string>();
-        internal readonly Dictionary<string, Type> JsonNameToType = new Dictionary<string, Type>();
+        internal readonly Dictionary<Type, string> TypeToJsonName = new();
+        internal readonly Dictionary<string, Type> JsonNameToType = new();
 
         public TypeValueConverter(bool dontWriteTypeValue = default)
         {
@@ -31,8 +28,8 @@ namespace CosmosApi.Serialization
             JsonNameToType[jsonName] = typeof(T);
             TypeToJsonName[typeof(T)] = jsonName;
         }
-        
-        public override void WriteJson(JsonWriter writer, TBaseType value, JsonSerializer serializer)
+
+        public override void WriteJson(JsonWriter writer, TBaseType? value, JsonSerializer serializer)
         {
             if (value == null)
             {
@@ -85,7 +82,7 @@ namespace CosmosApi.Serialization
             writer.WriteEndObject();
         }
 
-        public override TBaseType ReadJson(JsonReader reader, Type objectType, TBaseType existingValue, bool hasExistingValue,
+        public override TBaseType? ReadJson(JsonReader reader, Type objectType, TBaseType? existingValue, bool hasExistingValue,
             JsonSerializer serializer)
         {
             var jobject = serializer.Deserialize<JObject>(reader);
@@ -99,8 +96,13 @@ namespace CosmosApi.Serialization
             {
                 throw new CosmosSerializationException("Missing type discriminator in json.");
             }
-            
+
             var typeString = typeToken.Value<string>();
+            if (typeString == null)
+            {
+                return null;
+            }
+
             if (!JsonNameToType.TryGetValue(typeString, out var type))
             {
                 throw new CosmosSerializationException($"Unknown json type discriminator {typeString} for base type {typeof(TBaseType).Name}. {_registerTypeHint}");
@@ -124,7 +126,7 @@ namespace CosmosApi.Serialization
 
             var value = constructorInfo.Invoke(Array.Empty<object>());
             serializer.Populate(jToken!.CreateReader(), value);
-            return (TBaseType) value;
+            return (TBaseType)value;
         }
     }
 }

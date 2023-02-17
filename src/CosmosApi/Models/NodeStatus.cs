@@ -31,7 +31,7 @@ namespace CosmosApi.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "node_info")]
+        [JsonProperty(PropertyName = "default_node_info")]
         public NodeInfo NodeInfo { get; set; } = null!;
 
     }

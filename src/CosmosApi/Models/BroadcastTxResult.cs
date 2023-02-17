@@ -1,7 +1,6 @@
-using System;
-using System.Collections.Generic;
 using CosmosApi.Serialization;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace CosmosApi.Models
 {
@@ -37,10 +36,10 @@ namespace CosmosApi.Models
 
         [JsonProperty(PropertyName = "raw_log")]
         public string? RawLog { get; set; }
-        
+
         [JsonProperty("logs")]
         public IList<ABCIMessageLog> Logs { get; set; } = null!;
-        
+
         [JsonProperty("gas_wanted")]
         [JsonConverter(typeof(StringNumberConverter))]
         public ulong GasWanted { get; set; }

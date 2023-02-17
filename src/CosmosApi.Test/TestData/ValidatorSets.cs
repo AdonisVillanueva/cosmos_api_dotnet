@@ -1,13 +1,13 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using CosmosApi.Extensions;
+﻿using CosmosApi.Extensions;
 using CosmosApi.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace CosmosApi.Test.TestData
 {
     public class ValidatorSets
     {
         [return: NotNullIfNotNull("str")]
-        private static byte[]? ParseBase64( string str) => ByteArrayExtensions.ParseBase64(str);
+        private static byte[]? ParseBase64(string str) => ByteArrayExtensions.ParseBase64(str);
 
         /// <summary>
         /// Creates validator set response, which was made by querying https://api.cosmos.network/validatorsets/1

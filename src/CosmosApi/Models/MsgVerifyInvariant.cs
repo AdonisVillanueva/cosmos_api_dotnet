@@ -9,10 +9,10 @@ namespace CosmosApi.Models
     {
         [JsonProperty("sender")]
         public string Sender { get; set; } = null!;
-        
+
         [JsonProperty("invariant_module_name")]
         public string InvariantModuleName { get; set; } = null!;
-        
+
         [JsonProperty("invariant_route")]
         public string InvariantRoute { get; set; } = null!;
 

@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using CosmosApi.Serialization;
+﻿using CosmosApi.Serialization;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace CosmosApi.Models
 {
@@ -12,7 +12,7 @@ namespace CosmosApi.Models
         [JsonProperty("proposal_id")]
         [JsonConverter(typeof(StringNumberConverter))]
         public ulong ProposalId { get; set; }
-        
+
         /// <summary>
         /// Address of the depositor.
         /// </summary>

@@ -9,7 +9,7 @@ namespace CosmosApi.Models
     {
         [JsonProperty("delegator_address")]
         public string DelegatorAddress { get; set; } = null!;
-        
+
         [JsonProperty("validator_address")]
         public string ValidatorAddress { get; set; } = null!;
 

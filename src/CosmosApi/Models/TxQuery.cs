@@ -31,7 +31,7 @@ namespace CosmosApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "Txhash")]
         public string Txhash { get; set; } = null!;
-        
+
         [JsonProperty(PropertyName = "code")]
         public uint Code { get; set; }
 

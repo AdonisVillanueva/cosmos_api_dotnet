@@ -1,4 +1,3 @@
-using System.Net.Http;
 using CosmosApi.Serialization;
 using Newtonsoft.Json;
 

@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using CosmosApi.Models;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CosmosApi.Models;
 
 namespace CosmosApi.Endpoints
 {
@@ -241,13 +241,13 @@ namespace CosmosApi.Endpoints
         /// <param name="height"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<ResponseWithHeight<IList<DecCoin>>> GetCommunityPoolAsync(long? height = default, CancellationToken cancellationToken = default);
+        Task<ResponseWithHeight<Pool>> GetCommunityPoolAsync(CancellationToken cancellationToken = default);
         /// <summary>
         /// Community pool parameters.
         /// </summary>
         /// <param name="height"></param>
         /// <returns></returns>
-        ResponseWithHeight<IList<DecCoin>> GetCommunityPool(long? height = default);
+        ResponseWithHeight<Pool> GetCommunityPool();
 
         /// <summary>
         /// Fee distribution parameters.

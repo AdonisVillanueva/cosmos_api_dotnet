@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using CosmosApi.Serialization;
+﻿using CosmosApi.Serialization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace CosmosApi.Models
 {
@@ -9,9 +8,9 @@ namespace CosmosApi.Models
     {
         public StdSignDoc()
         {
-            
+
         }
-        
+
         public StdSignDoc(ulong accountNumber, string chainId, StdFee fee, string memo, IList<IMsg> messages, ulong sequence)
         {
             AccountNumber = accountNumber;

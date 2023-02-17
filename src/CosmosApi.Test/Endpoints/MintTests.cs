@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using ExtendedNumerics;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -21,7 +20,7 @@ namespace CosmosApi.Test.Endpoints
                 .GetParamsAsync();
             OutputHelper.WriteLine("Deserialized Mint Params:");
             Dump(@params);
-            
+
             Assert.NotEmpty(@params.Result.MintDenom);
             Assert.True(@params.Result.GoalBonded > 0);
             Assert.True(@params.Result.InflationMax > 0);
@@ -40,7 +39,7 @@ namespace CosmosApi.Test.Endpoints
                 .GetInflationAsync();
             OutputHelper.WriteLine("Deserialized Inflation:");
             Dump(inflation);
-            
+
             Assert.True(inflation.Result > 0);
         }
 
@@ -54,7 +53,7 @@ namespace CosmosApi.Test.Endpoints
                 .GetAnnualProvisionsAsync();
             OutputHelper.WriteLine("Deserialized Annual Provisions:");
             Dump(annualProvisions);
-            
+
             Assert.True(annualProvisions.Result > 0);
         }
     }

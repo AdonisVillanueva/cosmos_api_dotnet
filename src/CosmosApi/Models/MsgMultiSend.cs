@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using CosmosApi.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace CosmosApi.Models
 {
@@ -8,7 +7,7 @@ namespace CosmosApi.Models
     {
         [JsonProperty("inputs")]
         public IList<Input> Inputs { get; set; } = null!;
-        
+
         [JsonProperty("outputs")]
         public IList<Output> Outputs { get; set; } = null!;
 

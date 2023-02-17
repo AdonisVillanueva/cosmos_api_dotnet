@@ -34,7 +34,7 @@ namespace CosmosApi.Models
 
         /// <summary>
         /// </summary>
-        [JsonProperty(PropertyName = "id")]
+        [JsonProperty(PropertyName = "default_node_id")]
         public string Id { get; set; } = null!;
 
         /// <summary>
@@ -73,6 +73,5 @@ namespace CosmosApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "other")]
         public OtherVersionsInformation Other { get; set; } = null!;
-
     }
 }

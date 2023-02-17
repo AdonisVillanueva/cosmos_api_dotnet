@@ -17,7 +17,7 @@ namespace CosmosApi.Models
         /// </summary>
         [JsonProperty("voter")]
         public string Voter { get; set; } = null!;
-        
+
         /// <summary>
         /// Option from OptionSet chosen by the voter.
         /// </summary>

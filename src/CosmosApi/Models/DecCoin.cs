@@ -8,9 +8,9 @@ namespace CosmosApi.Models
     /// </summary>
     public class DecCoin
     {
-        [JsonProperty("denom")] 
+        [JsonProperty("denom")]
         public string Denom { get; set; } = null!;
-        
+
         [JsonProperty("amount")]
         public BigDecimal Amount { get; set; }
 

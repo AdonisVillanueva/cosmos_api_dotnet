@@ -1,10 +1,10 @@
-﻿using System;
+﻿using CosmosApi.Extensions;
+using CosmosApi.Models;
+using Flurl.Http;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CosmosApi.Extensions;
-using CosmosApi.Models;
-using Flurl.Http;
 
 namespace CosmosApi.Endpoints
 {
@@ -16,18 +16,30 @@ namespace CosmosApi.Endpoints
         {
             _clientGetter = clientGetter;
         }
-        
-        public Task<ResponseWithHeight<IList<Proposal>>> GetProposalsAsync(string? voter = default, string? depositor = default, ProposalStatus? status = default,
+
+        public async Task<ResponseWithHeight<IList<Proposal>>> GetProposalsAsync(string? voter = default, string? depositor = default, ProposalStatus? status = default,
             ulong? limit = default, CancellationToken cancellationToken = default)
         {
-            return _clientGetter()
-                .Request("gov", "proposals")
+            string blockHeight;
+            ResponseWithHeight<IList<Proposal>> rProposal = new();
+
+            var clientResponse = await _clientGetter()
+                .Request("cosmos/gov/v1", "proposals")
                 .SetQueryParam("voter", voter)
                 .SetQueryParam("depositor", depositor)
                 .SetQueryParam("status", status)
                 .SetQueryParam("limit", limit)
-                .GetJsonAsync<ResponseWithHeight<IList<Proposal>>>(cancellationToken)
+                .GetAsync()
                 .WrapExceptions();
+
+            if (clientResponse.Headers.TryGetFirst("Grpc-Metadata-X-Cosmos-Block-Height", out blockHeight))
+            {
+                rProposal.Height = (long)Convert.ToDouble(blockHeight);
+            };
+
+            rProposal.Result = await clientResponse.GetJsonAsync<IList<Proposal>>()
+                                .WrapExceptions();
+            return rProposal;
         }
 
         public ResponseWithHeight<IList<Proposal>> GetProposals(string? voter = default, string? depositor = default, ProposalStatus? status = default,
@@ -42,7 +54,7 @@ namespace CosmosApi.Endpoints
             var baseReq = new BaseReqWithSimulate(request.BaseReq, true);
             request = new PostProposalReq(baseReq, request.Title, request.Description, request.ProposalType, request.Proposer, request.InitialDeposit);
             return _clientGetter()
-                .Request("gov", "proposals")
+                .Request("cosmos/gov/v1", "proposals")
                 .PostJsonAsync(request, cancellationToken)
                 .ReceiveJson<GasEstimateResponse>()
                 .WrapExceptions();
@@ -58,7 +70,7 @@ namespace CosmosApi.Endpoints
         private static string ProposalContentTypeFromType(Type proposalContentType)
         {
             var contentSample =
-                (IProposalContent) proposalContentType.GetConstructor(Type.EmptyTypes)!.Invoke(Array.Empty<object>());
+                (IProposalContent)proposalContentType.GetConstructor(Type.EmptyTypes)!.Invoke(Array.Empty<object>());
             return contentSample.GetProposalType();
         }
 
@@ -93,9 +105,9 @@ namespace CosmosApi.Endpoints
         {
             var baseReq = new BaseReqWithSimulate(request.BaseReq, false);
             request = new PostProposalReq(baseReq, request.Title, request.Description, request.ProposalType, request.Proposer, request.InitialDeposit);
-            
+
             return _clientGetter()
-                .Request("gov", "proposals")
+                .Request("cosmos/gov/v1", "proposals")
                 .PostJsonAsync(request, cancellationToken)
                 .ReceiveJson<StdTx>()
                 .WrapExceptions();
@@ -139,7 +151,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<Proposal>> GetProposalAsync(ulong id, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("gov", "proposals", id)
+                .Request("cosmos/gov/v1", "proposals", id)
                 .GetJsonAsync<ResponseWithHeight<Proposal>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -153,7 +165,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<Proposer>> GetProposerByProposalIdAsync(ulong proposalId, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("gov", "proposals", proposalId, "proposer")
+                .Request("cosmos/gov/v1", "proposals", proposalId, "proposer")
                 .GetJsonAsync<ResponseWithHeight<Proposer>>(cancellationToken);
         }
 
@@ -166,7 +178,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<IList<Deposit>>> GetDepositsAsync(ulong proposalId, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("gov", "proposals", proposalId, "deposits")
+                .Request("cosmos/gov/v1", "proposals", proposalId, "deposits")
                 .GetJsonAsync<ResponseWithHeight<IList<Deposit>>>(cancellationToken);
         }
 
@@ -182,7 +194,7 @@ namespace CosmosApi.Endpoints
             request = new DepositReq(baseReq, request.Depositor, request.Amount);
 
             return _clientGetter()
-                .Request("gov", "proposals", proposalId, "deposits")
+                .Request("cosmos/gov", "proposals", proposalId, "deposits")
                 .PostJsonAsync(request, cancellationToken)
                 .ReceiveJson<GasEstimateResponse>()
                 .WrapExceptions();
@@ -200,7 +212,7 @@ namespace CosmosApi.Endpoints
             request = new DepositReq(baseReq, request.Depositor, request.Amount);
 
             return _clientGetter()
-                .Request("gov", "proposals", proposalId, "deposits")
+                .Request("cosmos/gov", "proposals", proposalId, "deposits")
                 .PostJsonAsync(request, cancellationToken)
                 .ReceiveJson<StdTx>()
                 .WrapExceptions();
@@ -215,7 +227,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<Deposit>> GetDepositAsync(ulong proposalId, string depositor, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("gov", "proposals", proposalId, "deposits", depositor)
+                .Request("cosmos/gov", "proposals", proposalId, "deposits", depositor)
                 .GetJsonAsync<ResponseWithHeight<Deposit>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -229,7 +241,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<IList<Vote>>> GetVotesAsync(ulong proposalId, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("gov", "proposals", proposalId, "votes")
+                .Request("cosmos/gov", "proposals", proposalId, "votes")
                 .GetJsonAsync<ResponseWithHeight<IList<Vote>>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -246,7 +258,7 @@ namespace CosmosApi.Endpoints
             request = new VoteReq(baseReq, request.Voter, request.Option);
 
             return _clientGetter()
-                .Request("gov", "proposals", proposalId, "votes")
+                .Request("cosmos/gov", "proposals", proposalId, "votes")
                 .PostJsonAsync(request, cancellationToken)
                 .ReceiveJson<GasEstimateResponse>()
                 .WrapExceptions();
@@ -264,7 +276,7 @@ namespace CosmosApi.Endpoints
             request = new VoteReq(baseReq, request.Voter, request.Option);
 
             return _clientGetter()
-                .Request("gov", "proposals", proposalId, "votes")
+                .Request("cosmos/gov", "proposals", proposalId, "votes")
                 .PostJsonAsync(request, cancellationToken)
                 .ReceiveJson<StdTx>()
                 .WrapExceptions();
@@ -279,7 +291,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<Vote>> GetVoteAsync(ulong proposalId, string voter, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("gov", "proposals", proposalId, "votes", voter)
+                .Request("cosmos/gov", "proposals", proposalId, "votes", voter)
                 .GetJsonAsync<ResponseWithHeight<Vote>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -293,7 +305,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<TallyResult>> GetTallyAsync(ulong proposalId, CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("gov", "proposals", proposalId, "tally")
+                .Request("cosmos/gov", "proposals", proposalId, "tally")
                 .GetJsonAsync<ResponseWithHeight<TallyResult>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -307,7 +319,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<DepositParams>> GetDepositParamsAsync(CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("gov", "parameters", "deposit")
+                .Request("cosmos/gov", "parameters", "deposit")
                 .GetJsonAsync<ResponseWithHeight<DepositParams>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -321,7 +333,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<TallyParams>> GetTallyParamsAsync(CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("gov", "parameters", "tallying")
+                .Request("cosmos/gov", "parameters", "tallying")
                 .GetJsonAsync<ResponseWithHeight<TallyParams>>(cancellationToken)
                 .WrapExceptions();
         }
@@ -335,7 +347,7 @@ namespace CosmosApi.Endpoints
         public Task<ResponseWithHeight<VotingParams>> GetVotingParamsAsync(CancellationToken cancellationToken = default)
         {
             return _clientGetter()
-                .Request("gov", "parameters", "voting")
+                .Request("cosmos/gov", "parameters", "voting")
                 .GetJsonAsync<ResponseWithHeight<VotingParams>>(cancellationToken)
                 .WrapExceptions();
         }

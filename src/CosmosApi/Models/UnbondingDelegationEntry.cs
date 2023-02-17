@@ -1,7 +1,7 @@
-﻿using System;
-using System.Numerics;
-using CosmosApi.Serialization;
+﻿using CosmosApi.Serialization;
 using Newtonsoft.Json;
+using System;
+using System.Numerics;
 
 namespace CosmosApi.Models
 {
@@ -12,7 +12,7 @@ namespace CosmosApi.Models
         /// </summary>
         [JsonProperty("creation_height")]
         [JsonConverter(typeof(StringNumberConverter))]
-        public long CreationHeight { get; set; } 
+        public long CreationHeight { get; set; }
         /// <summary>
         /// Time at which the unbonding delegation will complete.
         /// </summary>

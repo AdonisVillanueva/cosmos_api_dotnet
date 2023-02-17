@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using CosmosApi.Models;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CosmosApi.Models;
 
 namespace CosmosApi.Endpoints
 {
@@ -55,7 +55,7 @@ namespace CosmosApi.Endpoints
         /// <param name="request"></param>
         /// <returns></returns>
         GasEstimateResponse PostUnjailSimulation(string validatorAddress, UnjailRequest request);
-        
+
         /// <summary>
         /// Post an unjail validator request.
         /// </summary>

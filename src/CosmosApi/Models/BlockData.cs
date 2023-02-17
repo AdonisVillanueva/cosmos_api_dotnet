@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using CosmosApi.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace CosmosApi.Models
 {
@@ -9,7 +8,7 @@ namespace CosmosApi.Models
         public BlockData()
         {
         }
-        
+
         public BlockData(IList<string>? transactions)
         {
             Transactions = transactions;

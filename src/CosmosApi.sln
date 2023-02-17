@@ -1,15 +1,22 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29926.136
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CosmosApi", "CosmosApi\CosmosApi.csproj", "{380A1566-6167-478F-9D62-76EA26FAD5D3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CosmosApi.Test", "CosmosApi.Test\CosmosApi.Test.csproj", "{3CF02C06-EDD4-4265-9EC5-1960957E9792}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ecdsa.Secp", "Ecdsa.Secp\Ecdsa.Secp.csproj", "{9DACBBEC-36CD-4347-A192-9AFF6CFD99CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecdsa.Secp", "Ecdsa.Secp\Ecdsa.Secp.csproj", "{9DACBBEC-36CD-4347-A192-9AFF6CFD99CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NameserviceApi", "NameserviceApi\NameserviceApi.csproj", "{28B91B65-3DC4-4305-8321-974150553103}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NameserviceApi", "NameserviceApi\NameserviceApi.csproj", "{28B91B65-3DC4-4305-8321-974150553103}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{64081B13-0199-4003-BC9E-0AC639D9F25F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DD3E1B5A-1B32-4F11-ACDF-4DB2FDF4664A}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +40,10 @@ Global
 		{28B91B65-3DC4-4305-8321-974150553103}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28B91B65-3DC4-4305-8321-974150553103}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28B91B65-3DC4-4305-8321-974150553103}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64081B13-0199-4003-BC9E-0AC639D9F25F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64081B13-0199-4003-BC9E-0AC639D9F25F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64081B13-0199-4003-BC9E-0AC639D9F25F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64081B13-0199-4003-BC9E-0AC639D9F25F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,13 +13,13 @@ namespace CosmosApi.Models
         /// </summary>
         [JsonProperty("quorum")]
         public BigDecimal? Quorum { get; set; }
-        
+
         /// <summary>
         /// Minimum proportion of Yes votes for proposal to pass.
         /// </summary>
         [JsonProperty("threshold")]
         public BigDecimal? Threshold { get; set; }
-        
+
         /// <summary>
         /// Minimum value of Veto votes to Total votes ratio for proposal to be vetoed.
         /// </summary>

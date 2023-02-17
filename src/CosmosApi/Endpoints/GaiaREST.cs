@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using CosmosApi.Extensions;
+﻿using CosmosApi.Extensions;
 using CosmosApi.Models;
 using Flurl.Http;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CosmosApi.Endpoints
 {
@@ -16,15 +16,15 @@ namespace CosmosApi.Endpoints
             _clientGetter = clientGetter;
         }
 
-        private Task<NodeStatus> InternalGetNodeInfoAsync(CancellationToken cancellationToken = default(CancellationToken))
+        private Task<NodeStatus> InternalGetNodeInfoAsync(CancellationToken cancellationToken = default)
         {
             var client = _clientGetter();
-            return client.Request("node_info")
+            return client.Request("cosmos/base/tendermint/v1beta1/node_info")
                 .GetJsonAsync<NodeStatus>(cancellationToken: cancellationToken)
                 .WrapExceptions();
         }
-        
-        public Task<NodeStatus> GetNodeInfoAsync(CancellationToken cancellationToken = default(CancellationToken))
+
+        public Task<NodeStatus> GetNodeInfoAsync(CancellationToken cancellationToken = default)
         {
             return InternalGetNodeInfoAsync(cancellationToken).WrapExceptions();
         }

@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using CosmosApi.Callbacks;
+﻿using CosmosApi.Callbacks;
 using CosmosApi.Crypto;
 using CosmosApi.Endpoints;
 using CosmosApi.Extensions;
 using CosmosApi.Flurl;
-using CosmosApi.Models;
 using CosmosApi.Serialization;
 using Flurl.Http;
 using Flurl.Http.Configuration;
 using Newtonsoft.Json;
-using TaskTupleAwaiter;
+using System;
+using System.Linq;
+using System.Net.Http;
+using System.Threading;
 using ISerializer = CosmosApi.Serialization.ISerializer;
 
 namespace CosmosApi
@@ -28,11 +24,12 @@ namespace CosmosApi
         {
             _settings = settings;
             _flurlClient = new Lazy<IFlurlClient>(CreateClient, LazyThreadSafetyMode.ExecutionAndPublication);
-            
+
             GaiaRest = new GaiaREST(GetClient);
             TendermintRpc = new TendermintRPC(GetClient);
             Transactions = new Transactions(GetClient);
             Auth = new Auth(GetClient);
+            Authz = new Authz(GetClient);
             Bank = new Bank(GetClient);
             Staking = new Staking(GetClient);
             Governance = new Governance(GetClient);
@@ -47,6 +44,7 @@ namespace CosmosApi
         public ITendermintRPC TendermintRpc { get; }
         public ITransactions Transactions { get; }
         public IAuth Auth { get; }
+        public IAuthz Authz { get; }
         public IBank Bank { get; }
         public IStaking Staking { get; }
         public IGovernance Governance { get; }
@@ -76,12 +74,12 @@ namespace CosmosApi
                     {
                         s.HttpClientFactory = new DelegateClientFactory(_settings.HttpClientFactory, _settings.CreateMessageHandlerFactory);
                     }
-                    
+
                     if (_settings.OnError != null)
                     {
                         s.OnError = call =>
                         {
-                            var error = new Error(call.Request, call.Response, call.StartedUtc, call.EndedUtc, call.Exception.WrapException(), call.ExceptionHandled);
+                            var error = new Error((HttpRequestMessage)call.Request, (HttpResponseMessage?)call.Response, call.StartedUtc, call.EndedUtc, call.Exception.WrapException(), call.ExceptionHandled);
                             _settings.OnError(error);
                             call.ExceptionHandled = error.Handled;
                         };
@@ -90,7 +88,7 @@ namespace CosmosApi
                     {
                         s.OnErrorAsync = async call =>
                         {
-                            var error = new Error(call.Request, call.Response, call.StartedUtc, call.EndedUtc, call.Exception.WrapException(), call.ExceptionHandled);
+                            var error = new Error((HttpRequestMessage)call.Request, (HttpResponseMessage?)call.Response, call.StartedUtc, call.EndedUtc, call.Exception.WrapException(), call.ExceptionHandled);
                             await _settings.OnErrorAsync(error);
                             call.ExceptionHandled = error.Handled;
                         };
@@ -98,20 +96,20 @@ namespace CosmosApi
 
                     if (_settings.OnBeforeCall != null)
                     {
-                        s.BeforeCall = call => _settings.OnBeforeCall(new BeforeCall(call.Request));
+                        s.BeforeCall = call => _settings.OnBeforeCall(new BeforeCall((HttpRequestMessage)call.Request));
                     }
                     if (_settings.OnBeforeCallAsync != null)
                     {
-                        s.BeforeCallAsync = call => _settings.OnBeforeCallAsync(new BeforeCall(call.Request));
+                        s.BeforeCallAsync = call => _settings.OnBeforeCallAsync(new BeforeCall((HttpRequestMessage)call.Request));
                     }
 
                     if (_settings.OnAfterCall != null)
                     {
-                        s.AfterCall = call => _settings.OnAfterCall(new AfterCall(call.Request, call.Response, call.StartedUtc, call.EndedUtc));
+                        s.AfterCall = call => _settings.OnAfterCall(new AfterCall((HttpRequestMessage)call.Request, (HttpResponseMessage?)call.Response, call.StartedUtc, call.EndedUtc));
                     }
                     if (_settings.OnAfterCallAsync != null)
                     {
-                        s.AfterCallAsync = call => _settings.OnAfterCallAsync(new AfterCall(call.Request, call.Response, call.StartedUtc, call.EndedUtc));
+                        s.AfterCallAsync = call => _settings.OnAfterCallAsync(new AfterCall((HttpRequestMessage)call.Request, (HttpResponseMessage?)call.Response, call.StartedUtc, call.EndedUtc));
                     }
 
                     var jsonSerializerSettings = JsonSerializerSettings();
@@ -161,6 +159,7 @@ namespace CosmosApi
             {
                 jsonSerializerSettings.Converters.Add(_settings.ProposalContentConverter);
             }
+
             return jsonSerializerSettings;
         }
 

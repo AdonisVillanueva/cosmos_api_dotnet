@@ -9,7 +9,7 @@
         public SignerWithAddress()
         {
         }
-        
+
         public SignerWithAddress(string address, string encodedPrivateKey, string passphrase)
         {
             Address = address;

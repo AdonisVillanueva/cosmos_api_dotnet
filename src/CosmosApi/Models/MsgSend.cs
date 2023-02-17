@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using CosmosApi.Serialization;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace CosmosApi.Models
 {
@@ -22,10 +21,10 @@ namespace CosmosApi.Models
 
         [JsonProperty("from_address")]
         public string FromAddress { get; set; } = null!;
-        
+
         [JsonProperty("to_address")]
         public string ToAddress { get; set; } = null!;
-        
+
         [JsonProperty("amount")]
         public IList<Coin> Amount { get; set; } = null!;
 

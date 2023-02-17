@@ -1,6 +1,6 @@
+using CosmosApi.Models;
 using System.Threading;
 using System.Threading.Tasks;
-using CosmosApi.Models;
 
 namespace CosmosApi.Endpoints
 {
@@ -67,7 +67,7 @@ namespace CosmosApi.Endpoints
         /// The cancellation token.
         /// </param>
         Task<TxResponse> GetByHashAsync(byte[] hash, CancellationToken cancellationToken = default);
-        
+
         /// <summary>
         /// Get a Tx by hash
         /// Retrieve a transaction using its hash.
@@ -93,7 +93,7 @@ namespace CosmosApi.Endpoints
         /// The tx must be a signed StdTx.
         /// </param>
         BroadcastTxResult PostBroadcast(BroadcastTxBody txBroadcast);
-        
+
         /// <summary>
         /// Encode a transaction to the Amino wire format.
         /// Encode a transaction (signed or not) from JSON to base64-encoded Amino serialized bytes.

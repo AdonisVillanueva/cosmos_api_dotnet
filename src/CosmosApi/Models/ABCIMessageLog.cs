@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace CosmosApi.Models
 {
@@ -8,16 +8,16 @@ namespace CosmosApi.Models
     /// </summary>
     public class ABCIMessageLog
     {
-        
+
         [JsonProperty(PropertyName = "msg_index")]
         public ushort MsgIndex { get; set; }
-        
+
         [JsonProperty(PropertyName = "success")]
         public bool Success { get; set; }
-        
+
         [JsonProperty(PropertyName = "log")]
         public string? Log { get; set; }
-        
+
         /// <summary>
         /// Events contains a slice of Event objects that were emitted during some
         /// execution.

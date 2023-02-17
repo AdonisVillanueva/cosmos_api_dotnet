@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using CosmosApi.Models;
 
 namespace CosmosApi.Extensions
 {
     public static class ByteArrayExtensions
     {
-        [return: NotNullIfNotNull("array")] 
+        [return: NotNullIfNotNull("array")]
         public static string? ToHexString(this byte[]? array)
         {
             if (array == null)
@@ -17,7 +16,7 @@ namespace CosmosApi.Extensions
             var serializedValue = BitConverter.ToString(array).Replace("-", "");
             return serializedValue;
         }
-        
+
         [return: NotNullIfNotNull("str")]
         public static byte[]? ParseHexString(string? str)
         {
@@ -30,7 +29,7 @@ namespace CosmosApi.Extensions
             {
                 return new byte[0];
             }
-            
+
             var value = new byte[str.Length / 2];
             var deserializedSpan = str.AsSpan();
             for (int i = 0; i < value.Length; i++)
@@ -42,7 +41,7 @@ namespace CosmosApi.Extensions
             return value;
         }
 
-        [return: NotNullIfNotNull("array")] 
+        [return: NotNullIfNotNull("array")]
         public static string? ToBase64String(this byte[]? array)
         {
             if (array == null)
@@ -53,7 +52,7 @@ namespace CosmosApi.Extensions
             return Convert.ToBase64String(array);
         }
 
-        
+
         [return: NotNullIfNotNull("str")]
         public static byte[]? ParseBase64(string? str)
         {

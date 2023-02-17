@@ -9,11 +9,11 @@ namespace CosmosApi.Models
     {
         [EnumMember(Value = "")]
         Nil = 0,
-        
+
         [EnumMember(Value = "DepositPeriod")]
         DepositPeriod = 1,
 
-        [EnumMember(Value = "VotingPeriod")] 
+        [EnumMember(Value = "VotingPeriod")]
         VotingPeriod = 2,
 
         [EnumMember(Value = "Passed")]
@@ -22,7 +22,7 @@ namespace CosmosApi.Models
         [EnumMember(Value = "Rejected")]
         Rejected = 4,
 
-        [EnumMember(Value = "Failed")] 
+        [EnumMember(Value = "Failed")]
         Failed = 5,
     }
 }

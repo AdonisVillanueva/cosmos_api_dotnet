@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace CosmosApi.Models
 {
@@ -14,7 +14,7 @@ namespace CosmosApi.Models
         /// </summary>
         [JsonProperty(PropertyName = "total")]
         public IList<DecCoin> Total { get; set; } = null!;
-        
+
         /// <summary>
         /// Initializes a new instance of the DelegatorTotalRewards class.
         /// </summary>

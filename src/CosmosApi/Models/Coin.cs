@@ -1,6 +1,6 @@
-using System.Numerics;
 using CosmosApi.Serialization;
 using Newtonsoft.Json;
+using System.Numerics;
 
 namespace CosmosApi.Models
 {

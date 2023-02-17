@@ -1,7 +1,7 @@
-﻿using System;
-using System.Globalization;
-using ExtendedNumerics;
+﻿using ExtendedNumerics;
 using Newtonsoft.Json;
+using System;
+using System.Globalization;
 
 namespace CosmosApi.Serialization
 {
@@ -14,7 +14,7 @@ namespace CosmosApi.Serialization
                 serializer.Serialize(writer, null);
                 return;
             }
-            serializer.Serialize(writer, ((BigDecimal)value).ToString(CultureInfo.InvariantCulture));
+            serializer.Serialize(writer, value: ((BigDecimal)value).ToString(CultureInfo.InvariantCulture));
         }
 
         public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
